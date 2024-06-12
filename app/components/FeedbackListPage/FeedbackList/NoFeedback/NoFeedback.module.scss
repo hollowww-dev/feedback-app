@@ -1,0 +1,21 @@
+@use "../../../../styles/breakpoints.module.scss" as breakpoints;
+@use "../../../../styles/theme.module.scss" as theme;
+
+.noFeedback {
+	padding: 10em 3em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.5em;
+	border-radius: 10px;
+	background-color: theme.$white;
+	text-align: center;
+	p {
+		@media (min-width: breakpoints.$tablet) {
+			max-width: 58%;
+		}
+		@media (min-width: breakpoints.$desktop) {
+			max-width: 50%;
+		}
+	}
+}

@@ -1,0 +1,62 @@
+@use "../../styles/breakpoints.module.scss" as breakpoints;
+@use "../../styles/theme.module.scss" as theme;
+.button {
+	padding: 0.9em 1.75em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5em;
+	border-radius: 10px;
+	font-size: 1.3rem;
+	font-weight: 600;
+	&:disabled {
+		opacity: 0.5;
+		cursor: wait;
+	}
+	&.primary {
+		background-color: theme.$primary;
+		color: theme.$white;
+		&:hover {
+			background-color: theme.$primaryHover;
+		}
+	}
+	&.secondary {
+		color: theme.$white;
+		background-color: theme.$secondary;
+		&:hover {
+			background-color: theme.$secondaryHover;
+		}
+	}
+	&.delete {
+		color: theme.$white;
+		background-color: theme.$delete;
+		&:hover {
+			background-color: theme.$deleteHover;
+		}
+	}
+	&.edit {
+		color: theme.$white;
+		background-color: theme.$active;
+		&:hover {
+			background-color: theme.$activeHover;
+		}
+	}
+}
+.category {
+	padding: 0.4em 1.2em;
+	border-radius: 10px;
+	background-color: theme.$bodyBackground;
+	font-size: 1.3rem;
+	font-weight: 600;
+	color: theme.$active;
+	&:disabled {
+		cursor: default;
+	}
+	&:hover {
+		background-color: theme.$buttonHover;
+	}
+	&.active {
+		background-color: theme.$active;
+		color: theme.$white;
+	}
+}
