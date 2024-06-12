@@ -34,7 +34,7 @@ const SignUpPage = () => {
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {
 			const response = await createUser(data);
-			router.replace("/");
+			router.replace("/signin");
 			notify(`User ${response.name} (${response.username}) created!`);
 		} catch (e) {
 			if (e instanceof Error) {

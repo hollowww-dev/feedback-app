@@ -1,9 +1,8 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { User } from "../types";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import getUser from "../services/getUser";
 
 const useCurrentUser = () => {
-	const queryClient = useQueryClient();
-	const user = queryClient.getQueryData<User | null>(["me"]);
+	const { data: user } = useSuspenseQuery({ queryKey: ["me"], queryFn: getUser });
 
 	return user;
 };

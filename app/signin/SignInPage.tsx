@@ -11,8 +11,9 @@ import Cookies from "js-cookie";
 import styles from "../components/Form.module.scss";
 
 import Button from "../components/Button";
-import { authorize, login } from "../../actions";
+import { login } from "../../actions";
 import { useQueryClient } from "@tanstack/react-query";
+import getUser from "../services/getUser";
 
 type Inputs = {
 	username: string;
@@ -34,19 +35,17 @@ const SignInPage = () => {
 
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {
-			const response = await login(data);
-			Cookies.set("currentUser", JSON.stringify(response));
-			const user = await authorize(response);
+			const accessToken = await login(data);
+			Cookies.set("currentUser", accessToken);
+			const user = await getUser();
 			await queryClient.setQueryData(["me"], user);
 			router.replace("/");
 			notify(`You have been successfully logged in!`);
 		} catch (e) {
 			if (e instanceof Error) {
 				notify(e.message);
-				console.error(e);
 			} else {
 				notify("Something went wrong.");
-				console.error(e);
 			}
 		}
 	};
