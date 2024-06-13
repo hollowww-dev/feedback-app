@@ -1,6 +1,6 @@
 import { Entry, User } from "./types";
 
-import { getAll } from "../actions";
+import { getAll } from "@/actions";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 import FeedbackListPage from "./FeedbackListPage";

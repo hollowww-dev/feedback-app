@@ -15,48 +15,24 @@ import { signInSchema } from "./app/lib/authSchema";
 import { cookies } from "next/headers";
 
 export async function getAll(): Promise<Entry[]> {
-	try {
-		await dbConnect();
-		const feedback = await feedbackModel.find({});
-		const parsedFeedback = parseEntries(feedback);
-		return parsedFeedback;
-	} catch (e) {
-		if (e instanceof Error) {
-			throw new Error(e.message);
-		} else {
-			throw new Error("Something went wrong.");
-		}
-	}
+	await dbConnect();
+	const feedback = await feedbackModel.find({});
+	const parsedFeedback = parseEntries(feedback);
+	return parsedFeedback;
 }
 
 export async function getSingle(id: string): Promise<EntryDetailed> {
-	try {
-		await dbConnect();
-		const feedback = await feedbackModel.findOne({ _id: id });
-		const parsedFeedback = parseEntryDetailed(feedback);
-		return parsedFeedback;
-	} catch (e) {
-		if (e instanceof Error) {
-			throw new Error(e.message);
-		} else {
-			throw new Error("Something went wrong.");
-		}
-	}
+	await dbConnect();
+	const feedback = await feedbackModel.findOne({ _id: id });
+	const parsedFeedback = parseEntryDetailed(feedback);
+	return parsedFeedback;
 }
 
 export async function createUser(request: unknown): Promise<Omit<User, "passwordHash" | "upvoted" | "superUser">> {
-	try {
-		await dbConnect();
-		const parsedBody = await toNewUser(request);
-		const newUser = await userModel.create(parsedBody);
-		return { id: newUser._id.toString(), username: newUser.username, name: newUser.name };
-	} catch (e) {
-		if (e instanceof Error) {
-			throw new Error(e.message);
-		} else {
-			throw new Error("Something went wrong.");
-		}
-	}
+	await dbConnect();
+	const parsedBody = await toNewUser(request);
+	const newUser = await userModel.create(parsedBody);
+	return { id: newUser._id.toString(), username: newUser.username, name: newUser.name };
 }
 
 export async function login(request: unknown): Promise<string> {
@@ -65,33 +41,25 @@ export async function login(request: unknown): Promise<string> {
 	if (!JWT_SECRET) {
 		throw new Error("Secret password not provided.");
 	}
-	try {
-		await dbConnect();
+	await dbConnect();
 
-		const { username, password } = await signInSchema.parseAsync(request);
+	const { username, password } = await signInSchema.parseAsync(request);
 
-		const foundUser = await userModel.findOne({ username });
+	const foundUser = await userModel.findOne({ username });
 
-		if (!foundUser) {
-			throw new Error("User not found.");
-		}
-
-		const passwordCorrect = await bcrypt.compare(password, foundUser.passwordHash);
-
-		if (!passwordCorrect) {
-			throw new Error("Incorrect password");
-		}
-
-		const accessToken = jwt.sign(foundUser.id, JWT_SECRET);
-
-		return accessToken;
-	} catch (e) {
-		if (e instanceof Error) {
-			throw new Error(e.message);
-		} else {
-			throw new Error("Something went wrong.");
-		}
+	if (!foundUser) {
+		throw new Error("User not found.");
 	}
+
+	const passwordCorrect = await bcrypt.compare(password, foundUser.passwordHash);
+
+	if (!passwordCorrect) {
+		throw new Error("Incorrect password");
+	}
+
+	const accessToken = jwt.sign(foundUser.id, JWT_SECRET);
+
+	return accessToken;
 }
 
 export async function authorize() {
@@ -107,25 +75,17 @@ export async function authorize() {
 		return null;
 	}
 
-	try {
-		await dbConnect();
+	await dbConnect();
 
-		const decodedUser = jwt.verify(currentUser.value, JWT_SECRET);
+	const decodedUser = jwt.verify(currentUser.value, JWT_SECRET);
 
-		const user = await userModel.findById(decodedUser);
+	const user = await userModel.findById(decodedUser);
 
-		if (!user) {
-			throw new Error("User not found.");
-		}
-
-		return { id: user.id, name: user.name, username: user.username, upvoted: user.upvoted, superUser: user.superUser };
-	} catch (e) {
-		if (e instanceof Error) {
-			throw new Error(e.message);
-		} else {
-			throw new Error("Something went wrong.");
-		}
+	if (!user) {
+		throw new Error("User not found.");
 	}
+
+	return { id: user.id, name: user.name, username: user.username, upvoted: user.upvoted, superUser: user.superUser };
 }
 
 export async function logout(): Promise<void> {
