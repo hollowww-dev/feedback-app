@@ -9,7 +9,6 @@ import { signUpSchema } from "../lib/authSchema";
 import styles from "../components/Form.module.scss";
 
 import Button from "../components/Button";
-import { createUser } from "../../actions";
 import { useNotify } from "../contexts/notificationHooks";
 import { useRouter } from "next/navigation";
 import { createUserHandler } from "../services/auth";
@@ -27,7 +26,6 @@ const SignUpPage = () => {
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<Inputs>({ resolver: zodResolver(signUpSchema) });
-
 	const notify = useNotify();
 
 	const router = useRouter();
