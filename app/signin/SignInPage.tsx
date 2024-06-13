@@ -6,14 +6,13 @@ import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "../lib/authSchema";
-import Cookies from "js-cookie";
 
 import styles from "../components/Form.module.scss";
 
 import Button from "../components/Button";
 import { login } from "@/actions";
 import { useQueryClient } from "@tanstack/react-query";
-import getUser from "../services/getUser";
+import { authorizeHandler } from "../services/auth";
 
 type Inputs = {
 	username: string;
@@ -36,7 +35,7 @@ const SignInPage = () => {
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {
 			await login(data);
-			const user = await getUser();
+			const user = await authorizeHandler();
 			await queryClient.setQueryData(["me"], user);
 			router.replace("/");
 			notify(`You have been successfully logged in!`);

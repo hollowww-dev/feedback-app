@@ -36,9 +36,9 @@ export async function createUser(request: unknown) {
 		return { success: true, data: { id: newUser._id.toString(), username: newUser.username, name: newUser.name } };
 	} catch (e) {
 		if (e instanceof Error) {
-			return { success: false, message: e.message };
+			return { success: false, message: e.message, data: null };
 		} else {
-			return { success: false, message: "Something went wrong." };
+			return { success: false, message: "Something went wrong.", data: null };
 		}
 	}
 }
@@ -49,25 +49,35 @@ export async function login(request: unknown) {
 	if (!JWT_SECRET) {
 		throw new Error("Secret password not provided.");
 	}
-	await dbConnect();
+	try {
+		await dbConnect();
 
-	const { username, password } = await signInSchema.parseAsync(request);
+		const { username, password } = await signInSchema.parseAsync(request);
 
-	const foundUser = await userModel.findOne({ username });
+		const foundUser = await userModel.findOne({ username });
 
-	if (!foundUser) {
-		throw new Error("User not found.");
+		if (!foundUser) {
+			throw new Error("User not found.");
+		}
+
+		const passwordCorrect = await bcrypt.compare(password, foundUser.passwordHash);
+
+		if (!passwordCorrect) {
+			throw new Error("Incorrect password");
+		}
+
+		const accessToken = jwt.sign(foundUser.id, JWT_SECRET);
+
+		cookies().set("currentUser", accessToken);
+
+		return { success: true };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
 	}
-
-	const passwordCorrect = await bcrypt.compare(password, foundUser.passwordHash);
-
-	if (!passwordCorrect) {
-		throw new Error("Incorrect password");
-	}
-
-	const accessToken = jwt.sign(foundUser.id, JWT_SECRET);
-
-	cookies().set("currentUser", accessToken);
 }
 
 export async function authorize() {
@@ -80,20 +90,31 @@ export async function authorize() {
 	const currentUser = cookies().get("currentUser");
 
 	if (!currentUser) {
-		return null;
+		return { success: true, data: null };
 	}
+	try {
+		await dbConnect();
 
-	await dbConnect();
+		const decodedUser = jwt.verify(currentUser.value, JWT_SECRET);
 
-	const decodedUser = jwt.verify(currentUser.value, JWT_SECRET);
+		const user = await userModel.findById(decodedUser);
 
-	const user = await userModel.findById(decodedUser);
+		if (!user) {
+			throw new Error("User not found.");
+		}
 
-	if (!user) {
-		throw new Error("User not found.");
+		return {
+			success: true,
+			data: { id: user.id, name: user.name, username: user.username, upvoted: user.upvoted, superUser: user.superUser },
+		};
+	} catch (e) {
+		cookies().delete("currentUser");
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
 	}
-
-	return { id: user.id, name: user.name, username: user.username, upvoted: user.upvoted, superUser: user.superUser };
 }
 
 export async function logout(): Promise<void> {

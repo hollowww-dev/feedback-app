@@ -4,7 +4,7 @@ import { getAll } from "@/actions";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 import FeedbackListPage from "./FeedbackListPage";
-import getUser from "./services/getUser";
+import { authorizeHandler } from "./services/auth";
 
 export default async function Page() {
 	const queryClient = new QueryClient();
@@ -16,7 +16,7 @@ export default async function Page() {
 
 	await queryClient.prefetchQuery<Omit<User, "passwordHash"> | null>({
 		queryKey: ["me"],
-		queryFn: getUser,
+		queryFn: authorizeHandler,
 	});
 
 	return (
