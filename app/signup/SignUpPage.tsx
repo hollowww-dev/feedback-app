@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import { createUser } from "../../actions";
 import { useNotify } from "../contexts/notificationHooks";
 import { useRouter } from "next/navigation";
+import { createUserHandler } from "../services/auth";
 
 type Inputs = {
 	username: string;
@@ -33,9 +34,9 @@ const SignUpPage = () => {
 
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {
-			const response = await createUser(data);
+			const response = await createUserHandler(data);
 			router.replace("/signin");
-			notify(`User ${response.name} (${response.username}) created!`);
+			notify(`User ${response?.name} (${response?.username}) created!`);
 		} catch (e) {
 			if (e instanceof Error) {
 				notify(e.message);

@@ -35,8 +35,7 @@ const SignInPage = () => {
 
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {
-			const accessToken = await login(data);
-			Cookies.set("currentUser", accessToken);
+			await login(data);
 			const user = await getUser();
 			await queryClient.setQueryData(["me"], user);
 			router.replace("/");
@@ -44,7 +43,6 @@ const SignInPage = () => {
 		} catch (e) {
 			if (e instanceof Error) {
 				notify(e.message);
-				console.log(e);
 			} else {
 				notify("Something went wrong.");
 			}

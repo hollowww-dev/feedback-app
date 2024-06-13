@@ -14,7 +14,7 @@ export default async function Page() {
 		queryFn: getAll,
 	});
 
-	await queryClient.fetchQuery<Omit<User, "passwordHash"> | null>({
+	await queryClient.prefetchQuery<Omit<User, "passwordHash"> | null>({
 		queryKey: ["me"],
 		queryFn: getUser,
 	});

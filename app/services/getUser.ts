@@ -5,7 +5,7 @@ export default async function getUser() {
 	try {
 		const user = await authorize();
 		return user;
-	} catch (e) {
+	} catch {
 		Cookies.remove("currentUser");
 		return null;
 	}

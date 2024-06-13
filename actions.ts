@@ -28,14 +28,22 @@ export async function getSingle(id: string): Promise<EntryDetailed> {
 	return parsedFeedback;
 }
 
-export async function createUser(request: unknown): Promise<Omit<User, "passwordHash" | "upvoted" | "superUser">> {
-	await dbConnect();
-	const parsedBody = await toNewUser(request);
-	const newUser = await userModel.create(parsedBody);
-	return { id: newUser._id.toString(), username: newUser.username, name: newUser.name };
+export async function createUser(request: unknown) {
+	try {
+		await dbConnect();
+		const parsedBody = await toNewUser(request);
+		const newUser = await userModel.create(parsedBody);
+		return { success: true, data: { id: newUser._id.toString(), username: newUser.username, name: newUser.name } };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message };
+		} else {
+			return { success: false, message: "Something went wrong." };
+		}
+	}
 }
 
-export async function login(request: unknown): Promise<string> {
+export async function login(request: unknown) {
 	const { JWT_SECRET } = process.env;
 
 	if (!JWT_SECRET) {
@@ -59,7 +67,7 @@ export async function login(request: unknown): Promise<string> {
 
 	const accessToken = jwt.sign(foundUser.id, JWT_SECRET);
 
-	return accessToken;
+	cookies().set("currentUser", accessToken);
 }
 
 export async function authorize() {
