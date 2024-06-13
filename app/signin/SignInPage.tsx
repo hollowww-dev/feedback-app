@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 import styles from "../components/Form.module.scss";
 
 import Button from "../components/Button";
-import { login } from "../../actions";
+import { login } from "@/actions";
 import { useQueryClient } from "@tanstack/react-query";
 import getUser from "../services/getUser";
 
@@ -44,6 +44,7 @@ const SignInPage = () => {
 		} catch (e) {
 			if (e instanceof Error) {
 				notify(e.message);
+				console.log(e);
 			} else {
 				notify("Something went wrong.");
 			}
