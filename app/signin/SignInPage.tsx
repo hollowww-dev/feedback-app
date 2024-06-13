@@ -10,9 +10,8 @@ import { signInSchema } from "../lib/authSchema";
 import styles from "../components/Form.module.scss";
 
 import Button from "../components/Button";
-import { login } from "@/actions";
 import { useQueryClient } from "@tanstack/react-query";
-import { authorizeHandler } from "../services/auth";
+import { authorizeHandler, loginHandler } from "../services/auth";
 
 type Inputs = {
 	username: string;
@@ -34,7 +33,7 @@ const SignInPage = () => {
 
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {
-			await login(data);
+			await loginHandler(data);
 			const user = await authorizeHandler();
 			await queryClient.setQueryData(["me"], user);
 			router.replace("/");
