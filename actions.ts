@@ -89,7 +89,7 @@ export async function authorize() {
 
 	const currentUser = cookies().get("currentUser");
 
-	if (!currentUser) {
+	if (!currentUser || !currentUser.value) {
 		return { success: true, data: null };
 	}
 	try {
