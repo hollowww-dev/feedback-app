@@ -1,6 +1,6 @@
 "use server";
 
-import { Entry, EntryDetailed } from "./app/types";
+import { EntryDetailed } from "./app/types";
 
 import dbConnect from "./app/lib/mongodb";
 import bcrypt from "bcryptjs";
@@ -13,6 +13,7 @@ import feedbackModel from "./app/models/feedback";
 import userModel from "./app/models/user";
 import { signInSchema } from "./app/lib/authSchema";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 export async function getSuggestions() {
 	try {
@@ -95,9 +96,9 @@ export async function login(request: unknown) {
 		return { success: true };
 	} catch (e) {
 		if (e instanceof Error) {
-			return { success: false, message: e.message, data: null };
+			return { success: false, message: e.message };
 		} else {
-			return { success: false, message: "Something went wrong.", data: null };
+			return { success: false, message: "Something went wrong." };
 		}
 	}
 }
@@ -141,4 +142,5 @@ export async function authorize() {
 
 export async function logout(): Promise<void> {
 	cookies().delete("currentUser");
+	revalidatePath("/");
 }

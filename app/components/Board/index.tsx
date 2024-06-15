@@ -11,9 +11,25 @@ import IconClose from "@/assets/shared/mobile/icon-close.svg";
 import IconHamburger from "@/assets/shared/mobile/icon-hamburger.svg";
 import CategoryBoard from "../CategoryBoard";
 import clsx from "clsx";
+import { useUser } from "@/app/contexts/userHooks";
+import { logout } from "@/actions";
+import { useNotify } from "@/app/contexts/notificationHooks";
 
 const Board = ({ children }: { children?: JSX.Element | ReactNode }) => {
 	const [isOpen, setIsOpen] = useState(false);
+
+	const user = useUser();
+	const notify = useNotify();
+
+	const logoutHandler = async () => {
+		try {
+			await logout();
+			notify("Logged out successfully.");
+		} catch (e) {
+			console.log(e);
+			notify("Something went wrong");
+		}
+	};
 
 	return (
 		<div className={styles.board}>
@@ -21,13 +37,24 @@ const Board = ({ children }: { children?: JSX.Element | ReactNode }) => {
 				<div className={styles.title}>
 					<h2>Feedback app</h2>
 					<p>
-						<Link href="/signin" prefetch={true}>
-							Sign in
-						</Link>
-						{` | `}
-						<Link href="/signup" prefetch={true}>
-							Sign up
-						</Link>
+						{user ? (
+							<>
+								hello {user.name} |{" "}
+								<span className={styles.logout} onClick={() => logoutHandler()}>
+									Log out
+								</span>
+							</>
+						) : (
+							<>
+								<Link href="/signin" prefetch={true}>
+									Sign in
+								</Link>
+								{" | "}
+								<Link href="/signup" prefetch={true}>
+									Sign up
+								</Link>
+							</>
+						)}
 					</p>
 				</div>
 				<Image src={IconClose} className={isOpen ? undefined : styles.hidden} alt="Close icon" onClick={() => setIsOpen(false)} />
