@@ -3,9 +3,6 @@
 import { Entry, SortBy } from "../../types";
 
 import { useState } from "react";
-import { useMediaQuery } from "react-responsive";
-
-import breakpoints from "../../styles/_breakpoints.module.scss";
 
 import _ from "lodash";
 
