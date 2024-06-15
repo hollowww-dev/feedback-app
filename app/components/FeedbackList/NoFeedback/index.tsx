@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-import IllustrationEmpty from "../../../../../assets/suggestions/illustration-empty.svg";
-import IconPlus from "../../../../../assets/shared/icon-plus.svg";
+import IllustrationEmpty from "../../../../assets/suggestions/illustration-empty.svg";
+import IconPlus from "../../../../assets/shared/icon-plus.svg";
 
 import styles from "./NoFeedback.module.scss";
 
-import Button from "../../../Button";
+import Button from "../../Button";
 
 const NoFeedback = () => {
 	return (

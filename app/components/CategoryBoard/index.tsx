@@ -1,11 +1,17 @@
-import { Category } from "../../../types";
-import { Dispatch, SetStateAction } from "react";
+"use client";
+
+import { Category } from "../../types";
+
+import { useFilterValue, useUpdateFilter } from "@/app/contexts/filterHooks";
 
 import styles from "./CategoryBoard.module.scss";
 
-import { CategoryLabel } from "../../Button";
+import { CategoryLabel } from "../Button";
 
-const CategoryBoard = ({ filter, setFilter }: { filter: Category | "all"; setFilter: Dispatch<SetStateAction<Category | "all">> }) => {
+function CategoryBoard() {
+	const filter = useFilterValue();
+	const setFilter = useUpdateFilter();
+
 	return (
 		<div className={styles.categoryBoard}>
 			<CategoryLabel key="all" category="all" onClick={() => setFilter("all")} active={filter === "all"} />
@@ -14,5 +20,5 @@ const CategoryBoard = ({ filter, setFilter }: { filter: Category | "all"; setFil
 			))}
 		</div>
 	);
-};
+}
 export default CategoryBoard;

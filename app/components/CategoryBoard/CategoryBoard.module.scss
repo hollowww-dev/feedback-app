@@ -1,5 +1,5 @@
-@use "../../../styles/breakpoints.module.scss" as breakpoints;
-@use "../../../styles/theme.module.scss" as theme;
+@use "@/app/styles/breakpoints.module.scss" as breakpoints;
+@use "@/app/styles/theme.module.scss" as theme;
 
 .categoryBoard {
 	padding: 1.25em 1.5em;

@@ -1,6 +1,6 @@
 "use server";
 
-import { Entry, EntryDetailed, User } from "./app/types";
+import { Entry, EntryDetailed } from "./app/types";
 
 import dbConnect from "./app/lib/mongodb";
 import bcrypt from "bcryptjs";
@@ -14,11 +14,19 @@ import userModel from "./app/models/user";
 import { signInSchema } from "./app/lib/authSchema";
 import { cookies } from "next/headers";
 
-export async function getAll(): Promise<Entry[]> {
-	await dbConnect();
-	const feedback = await feedbackModel.find({});
-	const parsedFeedback = parseEntries(feedback);
-	return parsedFeedback;
+export async function getSuggestions() {
+	try {
+		await dbConnect();
+		const suggestions = await feedbackModel.find({ status: "suggestion" });
+		const parsedSuggestions = parseEntries(suggestions);
+		return { success: true, data: parsedSuggestions };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: [] };
+		} else {
+			return { success: false, message: "Something went wrong.", data: [] };
+		}
+	}
 }
 
 export async function getSingle(id: string): Promise<EntryDetailed> {
@@ -26,6 +34,20 @@ export async function getSingle(id: string): Promise<EntryDetailed> {
 	const feedback = await feedbackModel.findOne({ _id: id });
 	const parsedFeedback = parseEntryDetailed(feedback);
 	return parsedFeedback;
+}
+
+export async function getStats() {
+	try {
+		await dbConnect();
+		const stats = await feedbackModel.aggregate([{ $match: { status: { $ne: "suggestion" } } }]).sortByCount("status");
+		return { success: true, data: stats };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
 }
 
 export async function createUser(request: unknown) {
@@ -68,7 +90,7 @@ export async function login(request: unknown) {
 
 		const accessToken = jwt.sign(foundUser.id, JWT_SECRET);
 
-		cookies().set("currentUser", accessToken);
+		cookies().set("currentUser", accessToken, { httpOnly: true, maxAge: 60 * 60 * 24 * 7 });
 
 		return { success: true };
 	} catch (e) {

@@ -1,17 +1,17 @@
 "use client";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNotify } from "../contexts/notificationHooks";
+import { useNotify } from "../../app/contexts/notificationHooks";
 import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema } from "../lib/authSchema";
+import { signInSchema } from "../../app/lib/authSchema";
 
 import styles from "../components/Form.module.scss";
 
-import Button from "../components/Button";
+import Button from "../../app/components/Button";
 import { useQueryClient } from "@tanstack/react-query";
-import { authorizeHandler, loginHandler } from "../services/auth";
+import { authorizeHandler, loginHandler } from "../../app/services/auth";
 
 type Inputs = {
 	username: string;

@@ -1,5 +1,5 @@
-@use "../../../styles/breakpoints.module.scss" as breakpoints;
-@use "../../../styles/theme.module.scss" as theme;
+@use "../../styles/breakpoints.module.scss" as breakpoints;
+@use "../../styles/theme.module.scss" as theme;
 
 .container {
 	width: 100%;
@@ -30,13 +30,21 @@
 		align-items: center;
 		gap: 4em;
 		color: theme.$white;
-		svg {
-			margin: 0 0.5em;
-		}
-		h2 {
+		.suggestions {
 			display: flex;
 			align-items: center;
-			gap: 0.75em;
+			gap: 1em;
+			@media (max-width: breakpoints.$mobile) {
+				display: none;
+			}
+			svg {
+				margin: 0 0.5em;
+			}
+			h2 {
+				display: flex;
+				align-items: center;
+				gap: 0.75em;
+			}
 		}
 	}
 }
@@ -93,7 +101,7 @@
 				}
 				&--is-selected {
 					&::before {
-						content: url("../../../../assets/shared/icon-check.svg");
+						content: url("../../../assets/shared/icon-check.svg");
 						position: absolute;
 						right: 1.1em;
 					}

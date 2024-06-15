@@ -1,9 +1,11 @@
-import { Entry, SortBy } from "../../../types";
+"use client";
+
+import { Entry, SortBy } from "../../types";
 
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
-import breakpoints from "../../../styles/_breakpoints.module.scss";
+import breakpoints from "../../styles/_breakpoints.module.scss";
 
 import _ from "lodash";
 
@@ -11,13 +13,14 @@ import styles from "./FeedbackList.module.scss";
 
 import Image from "next/image";
 
-import IconSuggestions from "../../../../assets/suggestions/icon-suggestions.svg";
-import IconPlus from "../../../../assets/shared/icon-plus.svg";
+import IconSuggestions from "../../../assets/suggestions/icon-suggestions.svg";
+import IconPlus from "../../../assets/shared/icon-plus.svg";
 
-import FeedbackEntry from "../../FeedbackEntry";
+import FeedbackEntry from "../FeedbackEntry";
 import Select from "react-select";
-import Button from "../../Button";
+import Button from "../Button";
 import NoFeedback from "./NoFeedback";
+import { useFilterValue } from "@/app/contexts/filterHooks";
 
 const sortByOptions: SortBy[] = [
 	{ label: "Most Upvotes", value: ["upvotes", "desc"] },
@@ -26,21 +29,20 @@ const sortByOptions: SortBy[] = [
 	{ label: "Least Comments", value: ["comments", "asc"] },
 ];
 
-const FeedbackList = ({ suggestions }: { suggestions: Entry[] }) => {
+const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 	const [sortBy, setSortBy] = useState<SortBy["value"]>(["upvotes", "desc"]);
+	const filter = useFilterValue();
 
-	const isMobile = useMediaQuery({ query: `(max-width: ${breakpoints.mobile})` });
+	const suggestions = filter === "all" ? rawSuggestions : rawSuggestions.filter(entry => entry.category === filter);
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.header}>
 				<div className={styles.left}>
-					{!isMobile && (
-						<h2>
-							<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
-							{suggestions.length} Suggestions
-						</h2>
-					)}
+					<h2 className={styles.suggestions}>
+						<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
+						{suggestions.length} Suggestions
+					</h2>
 					<div className={styles.sortBy}>
 						<p>Sort by:</p>
 						<Select

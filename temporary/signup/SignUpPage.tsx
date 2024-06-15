@@ -4,14 +4,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { signUpSchema } from "../lib/authSchema";
+import { signUpSchema } from "../../app/lib/authSchema";
 
 import styles from "../components/Form.module.scss";
 
-import Button from "../components/Button";
-import { useNotify } from "../contexts/notificationHooks";
+import Button from "../../app/components/Button";
+import { useNotify } from "../../app/contexts/notificationHooks";
 import { useRouter } from "next/navigation";
-import { createUserHandler } from "../services/auth";
 
 type Inputs = {
 	username: string;
@@ -32,7 +31,7 @@ const SignUpPage = () => {
 
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {
-			const response = await createUserHandler(data);
+			const response = {};
 			router.replace("/signin");
 			notify(`User ${response?.name} (${response?.username}) created!`);
 		} catch (e) {

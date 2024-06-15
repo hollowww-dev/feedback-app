@@ -16,16 +16,3 @@
 		max-width: breakpoints.$bigDesktop;
 	}
 }
-
-.board {
-	position: sticky;
-	top: 0;
-	display: flex;
-	gap: 1em;
-	@media (min-width: breakpoints.$tablet) {
-		position: static;
-	}
-	@media (min-width: breakpoints.$desktop) {
-		flex-direction: column;
-	}
-}

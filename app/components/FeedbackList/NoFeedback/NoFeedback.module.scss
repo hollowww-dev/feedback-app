@@ -1,5 +1,5 @@
-@use "../../../../styles/breakpoints.module.scss" as breakpoints;
-@use "../../../../styles/theme.module.scss" as theme;
+@use "../../../styles/breakpoints.module.scss" as breakpoints;
+@use "../../../styles/theme.module.scss" as theme;
 
 .noFeedback {
 	padding: 10em 3em;

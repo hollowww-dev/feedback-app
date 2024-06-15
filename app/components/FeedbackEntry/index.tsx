@@ -12,7 +12,6 @@ import IconArrowUp from "../../../assets/shared/icon-arrow-up";
 import IconComments from "../../../assets/shared/icon-comments.svg";
 
 import { CategoryLabel } from "../Button";
-
 const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean; link?: boolean }) => {
 	const router = useRouter();
 
@@ -27,7 +26,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 				<p>{entry.description}</p>
 				<CategoryLabel category={entry.category} />
 			</div>
-			<button className={styles.votes}>
+			<button className={clsx(`${styles.votes}`)}>
 				<IconArrowUp />
 				{entry.upvotes}
 			</button>
