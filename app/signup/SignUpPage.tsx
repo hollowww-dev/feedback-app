@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { signUpSchema } from "../../app/lib/authSchema";
 
-import styles from "../components/Form.module.scss";
+import styles from "@/app/components/Form.module.scss";
 
 import Button from "../../app/components/Button";
 import { useNotify } from "../../app/contexts/notificationHooks";
@@ -39,10 +39,8 @@ const SignUpPage = () => {
 		} catch (e) {
 			if (e instanceof Error) {
 				notify(e.message);
-				console.error(e);
 			} else {
 				notify("Something went wrong.");
-				console.error(e);
 			}
 		}
 	};
@@ -78,6 +76,7 @@ const SignUpPage = () => {
 				</label>
 				<div className={styles.input}>
 					<input {...register("devPassword")} type="password" id="devPassword" />
+					<span className={styles.errorMessage} />
 				</div>
 				<div className={styles.buttons}>
 					<Button type="submit" label="Register" variant="primary" disabled={isSubmitting} />

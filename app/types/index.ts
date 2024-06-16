@@ -22,10 +22,10 @@ export interface Entry {
 	upvotes: number;
 	status: Status;
 	description: string;
-	comments?: number;
+	commentsCount: number;
 }
 
-export type NewEntry = Omit<Entry, "id" | "comments" | "status" | "upvotes" | "user"> & { status?: Status };
+export type NewEntry = Omit<Entry, "id" | "commentsCount" | "status" | "upvotes" | "user"> & { status?: Status };
 
 export type User = {
 	id: string;
@@ -60,9 +60,8 @@ export type Comment = {
 	replies?: Reply[];
 };
 
-export type EntryDetailed = Omit<Entry, "comments"> & {
+export type EntryDetailed = Entry & {
 	comments?: Comment[];
-	commentsLength: number;
 };
 export type RoadmapCount = {
 	planned: number;

@@ -1,3 +1,5 @@
+"use client";
+
 import { Entry } from "../../types";
 
 import { useRouter } from "next/navigation";
@@ -19,7 +21,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 		<div
 			className={clsx(`${styles.feedbackEntry}`, extend && `${styles.extend}`, link && `${styles.link}`)}
 			onClick={() => {
-				link && router.push(`/feedback/${entry.id}`);
+				link && router.push(`/entry/${entry.id}`);
 			}}>
 			<div className={styles.content}>
 				<h3>{entry.title}</h3>
@@ -32,7 +34,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			</button>
 			<div className={styles.comments}>
 				<Image src={IconComments} alt="Comments icon" />
-				{entry.comments}
+				{entry.commentsCount}
 			</div>
 		</div>
 	);

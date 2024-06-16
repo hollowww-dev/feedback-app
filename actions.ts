@@ -30,11 +30,19 @@ export async function getSuggestions() {
 	}
 }
 
-export async function getSingle(id: string): Promise<EntryDetailed> {
-	await dbConnect();
-	const feedback = await feedbackModel.findOne({ _id: id });
-	const parsedFeedback = parseEntryDetailed(feedback);
-	return parsedFeedback;
+export async function getSingle(id: string) {
+	try {
+		await dbConnect();
+		const feedback = await feedbackModel.findOne({ _id: id });
+		const parsedFeedback = parseEntryDetailed(feedback);
+		return { success: true, data: parsedFeedback };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
 }
 
 export async function getStats() {

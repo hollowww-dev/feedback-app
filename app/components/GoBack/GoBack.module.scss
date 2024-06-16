@@ -1,0 +1,21 @@
+@use "@/app/styles/breakpoints.module.scss" as breakpoints;
+@use "@/app/styles/theme.module.scss" as theme;
+
+.goBack {
+	display: inline-flex;
+	align-items: center;
+	gap: 1em;
+	font-weight: 600;
+	cursor: pointer;
+	svg {
+		stroke: theme.$active;
+	}
+	&:hover {
+		text-decoration: underline;
+	}
+	&.white {
+		svg {
+			stroke: theme.$white;
+		}
+	}
+}

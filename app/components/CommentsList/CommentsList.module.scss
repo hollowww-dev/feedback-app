@@ -1,0 +1,60 @@
+@use "@/app/styles/breakpoints.module.scss" as breakpoints;
+@use "@/app/styles/theme.module.scss" as theme;
+
+.commentList {
+	padding: 1em 2em;
+	display: flex;
+	flex-direction: column;
+	border-radius: 10px;
+	background-color: theme.$white;
+}
+.commentSingle {
+	padding: 1.5em 0;
+	display: flex;
+	gap: 1em;
+	border-bottom: 1px solid theme.$bodyBackground;
+	&:last-of-type {
+		border-bottom: none;
+	}
+	.commentReply {
+		margin-left: -20px;
+		border-bottom: none;
+		&:last-of-type {
+			border-bottom: 1px solid theme.$bodyBackground;
+		}
+	}
+	.avatar {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background-color: theme.$bodyBackground;
+		font-weight: 700;
+	}
+	.content {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		gap: 2em;
+		.top {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.name {
+				display: flex;
+				flex-direction: column;
+			}
+			.reply {
+				font-size: 1.3rem;
+				font-weight: 700;
+				color: theme.$active;
+				cursor: pointer;
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}

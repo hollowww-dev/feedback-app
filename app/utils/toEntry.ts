@@ -190,7 +190,7 @@ export const parseEntry = (entry: unknown): Entry => {
 		// user: parseAuthor(entry.user),
 		status: parseStatus(entry.status),
 		description: parseDescription(entry.description),
-		comments: "comments" in entry ? parseCommentsLength(entry.comments) : 0,
+		commentsCount: "comments" in entry ? parseCommentsLength(entry.comments) : 0,
 	};
 
 	return parsedEntry;
@@ -230,7 +230,7 @@ export const parseEntryDetailed = (entry: unknown): EntryDetailed => {
 		// user: parseAuthor(entry.user),
 		status: parseStatus(entry.status),
 		description: parseDescription(entry.description),
-		commentsLength: "comments" in entry ? parseCommentsLength(entry.comments) : 0,
+		commentsCount: "comments" in entry ? parseCommentsLength(entry.comments) : 0,
 	};
 
 	"comments" in entry && (parsedEntry.comments = parseComments(entry.comments));

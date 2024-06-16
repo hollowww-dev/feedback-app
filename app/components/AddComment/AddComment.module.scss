@@ -1,0 +1,46 @@
+@use "@/app/styles/theme.module.scss" as theme;
+
+.addCommentContainer {
+	padding: 1em 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	border-radius: 10px;
+	background-color: theme.$white;
+	form {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		align-items: space-between;
+		textarea {
+			width: 100%;
+			padding: 0.8em 1em;
+			border: none;
+			border-radius: 5px;
+			border: 1px solid transparent;
+			background-color: theme.$bodyBackground;
+			color: theme.$paragraph;
+			font-size: inherit;
+			font-family: inherit;
+			resize: none;
+			&.error {
+				border: 1px solid red;
+			}
+			&:hover,
+			&:active {
+				border: 1px solid theme.$active;
+			}
+		}
+		.errorMessage {
+			height: 1em;
+			color: red;
+			font-size: 1.3rem;
+			line-height: 2rem;
+		}
+		.bottom {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+}

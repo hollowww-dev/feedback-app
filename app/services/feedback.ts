@@ -1,6 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { getStats, getSuggestions } from "@/actions";
+import { getSingle, getStats, getSuggestions } from "@/actions";
 
 export const getSuggestionsHandler = cache(async () => {
 	const response = await getSuggestions();
@@ -12,6 +12,15 @@ export const getSuggestionsHandler = cache(async () => {
 });
 export const getStatsHandler = cache(async () => {
 	const response = await getStats();
+	if (response.success) {
+		return response.data;
+	} else {
+		throw new Error(response.message);
+	}
+});
+
+export const getSingleHandler = cache(async (id: string) => {
+	const response = await getSingle(id);
 	if (response.success) {
 		return response.data;
 	} else {
