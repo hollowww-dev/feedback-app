@@ -60,7 +60,7 @@ const CommentsList = ({ comments }: { comments: Comment[] }) => {
 	return (
 		<div className={styles.commentsList}>
 			<h3>
-				{comments.length} comment{comments.length > 1 && "s"}
+				{comments.length} comment{comments.length !== 1 && "s"}
 			</h3>
 			{comments.map(comment => (
 				<CommentSingle comment={comment} key={comment.id} />

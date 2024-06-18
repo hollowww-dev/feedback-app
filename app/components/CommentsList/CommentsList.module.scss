@@ -1,7 +1,7 @@
 @use "@/app/styles/breakpoints.module.scss" as breakpoints;
 @use "@/app/styles/theme.module.scss" as theme;
 
-.commentList {
+.commentsList {
 	padding: 1em 2em;
 	display: flex;
 	flex-direction: column;

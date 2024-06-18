@@ -1,7 +1,5 @@
 "use server";
 
-import { EntryDetailed } from "./app/types";
-
 import dbConnect from "./app/lib/mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -50,6 +48,30 @@ export async function getStats() {
 		await dbConnect();
 		const stats = await feedbackModel.aggregate([{ $match: { status: { $ne: "suggestion" } } }]).sortByCount("status");
 		return { success: true, data: stats };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
+}
+
+export async function upvote(id: string) {
+	try {
+		await dbConnect();
+		const user = await authorize();
+		if (!user.data) {
+			throw new Error("You need to log in to upvote.");
+		}
+		if (!user.data?.upvoted.includes(id)) {
+			await feedbackModel.updateOne({ _id: id }, { $inc: { upvotes: 1 } });
+			await userModel.updateOne({ _id: user.data?.id }, { $push: { upvoted: id } });
+		} else {
+			await feedbackModel.updateOne({ _id: id }, { $inc: { upvotes: -1 } });
+			await userModel.updateOne({ _id: user.data?.id }, { $pull: { upvoted: id } });
+		}
+		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {
 			return { success: false, message: e.message, data: null };
