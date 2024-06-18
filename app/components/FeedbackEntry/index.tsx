@@ -30,7 +30,6 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 		startTransition(async () => {
 			try {
 				await upvoteHandler(entry.id);
-				router.refresh();
 			} catch (e) {
 				if (e instanceof Error) {
 					notify(e.message);

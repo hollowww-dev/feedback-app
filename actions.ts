@@ -74,6 +74,7 @@ export async function upvote(id: string) {
 			userPromise = userModel.updateOne({ _id: user.data?.id }, { $pull: { upvoted: id } });
 		}
 		await Promise.all([feedbackPromise, userPromise]);
+		revalidatePath("/");
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {

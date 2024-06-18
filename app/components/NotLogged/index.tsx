@@ -5,7 +5,7 @@ const NotLogged = () => {
 	return (
 		<div className={styles.notLogged}>
 			<p>
-				Please <Link href="/login">log in</Link> or <Link href="/register">register</Link> to add a comment.
+				Please <Link href="/signin">log in</Link> or <Link href="/signup">register</Link> to add a comment.
 			</p>
 		</div>
 	);
