@@ -1,6 +1,5 @@
 import styles from "./FeedbackListPage.module.scss";
 import Board from "./components/Board";
-import FeedbackList from "./components/FeedbackList";
 import { getStatsHandler, getSuggestionsHandler } from "./services/feedback";
 import RoadmapBoard from "./components/RoadmapBoard";
 import { Suspense } from "react";
@@ -14,11 +13,11 @@ export default async function Page() {
 	return (
 		<div className={styles.container}>
 			<Board>
-				<Suspense fallback={<Loading />}>
+				<Suspense key="roadmap" fallback={<Loading />}>
 					<RoadmapBoard />
 				</Suspense>
 			</Board>
-			<Suspense fallback={<Loading />}>
+			<Suspense key="feedbacklist" fallback={<Loading />}>
 				<FeedbackListLoader />
 			</Suspense>
 		</div>
