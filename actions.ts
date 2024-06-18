@@ -64,13 +64,16 @@ export async function upvote(id: string) {
 		if (!user.data) {
 			throw new Error("You need to log in to upvote.");
 		}
+		let feedbackPromise;
+		let userPromise;
 		if (!user.data?.upvoted.includes(id)) {
-			await feedbackModel.updateOne({ _id: id }, { $inc: { upvotes: 1 } });
-			await userModel.updateOne({ _id: user.data?.id }, { $push: { upvoted: id } });
+			feedbackPromise = feedbackModel.updateOne({ _id: id }, { $inc: { upvotes: 1 } });
+			userPromise = userModel.updateOne({ _id: user.data?.id }, { $push: { upvoted: id } });
 		} else {
-			await feedbackModel.updateOne({ _id: id }, { $inc: { upvotes: -1 } });
-			await userModel.updateOne({ _id: user.data?.id }, { $pull: { upvoted: id } });
+			feedbackPromise = feedbackModel.updateOne({ _id: id }, { $inc: { upvotes: -1 } });
+			userPromise = userModel.updateOne({ _id: user.data?.id }, { $pull: { upvoted: id } });
 		}
+		await Promise.all([feedbackPromise, userPromise]);
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {

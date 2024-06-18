@@ -6,6 +6,8 @@ import GoBack from "@/app/components/GoBack";
 import { getSingleHandler } from "@/app/services/feedback";
 import { redirect } from "next/navigation";
 import AddComment from "@/app/components/AddComment";
+import { Suspense } from "react";
+import Loading from "@/app/loading";
 
 export default async function Page({ params }: { params: { id: string } }) {
 	const entry = await getSingleHandler(params.id);
@@ -13,13 +15,15 @@ export default async function Page({ params }: { params: { id: string } }) {
 		redirect("/");
 	}
 	return (
-		<div className={styles.entryContainer}>
-			<div className={styles.top}>
-				<GoBack />
+		<Suspense key={params.id} fallback={<Loading />}>
+			<div className={styles.entryContainer}>
+				<div className={styles.top}>
+					<GoBack />
+				</div>
+				<FeedbackEntry entry={entry} extend={true} />
+				<CommentsList comments={entry.comments || []} />
+				<AddComment />
 			</div>
-			<FeedbackEntry entry={entry} extend={true} />
-			<CommentsList comments={entry.comments || []} />
-			<AddComment />
-		</div>
+		</Suspense>
 	);
 }

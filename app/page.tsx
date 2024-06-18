@@ -5,12 +5,12 @@ import { getStatsHandler, getSuggestionsHandler } from "./services/feedback";
 import RoadmapBoard from "./components/RoadmapBoard";
 import { Suspense } from "react";
 import Loading from "./loading";
+import FeedbackListLoader from "./components/FeedbackList/FeedbackListLoader";
 
 export default async function Page() {
-	const suggestionsData = getSuggestionsHandler();
+	getSuggestionsHandler();
 	getStatsHandler();
 
-	const rawSuggestions = await Promise.resolve(suggestionsData);
 	return (
 		<div className={styles.container}>
 			<Board>
@@ -18,7 +18,9 @@ export default async function Page() {
 					<RoadmapBoard />
 				</Suspense>
 			</Board>
-			<FeedbackList rawSuggestions={rawSuggestions} />
+			<Suspense fallback={<Loading />}>
+				<FeedbackListLoader />
+			</Suspense>
 		</div>
 	);
 }

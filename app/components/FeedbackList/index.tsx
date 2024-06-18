@@ -41,7 +41,7 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 						{suggestions.length} Suggestions
 					</h2>
 					<div className={styles.sortBy}>
-						<p>Sort by:</p>
+						<label htmlFor="sortBy">Sort by:</label>
 						<Select
 							classNamePrefix="select"
 							classNames={{
