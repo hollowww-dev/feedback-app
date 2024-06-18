@@ -17,25 +17,28 @@ import { CategoryLabel } from "../Button";
 import { upvoteHandler } from "@/app/services/feedback";
 import { useNotify } from "@/app/contexts/notificationHooks";
 import { useUser } from "@/app/contexts/userHooks";
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useTransition } from "react";
 const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean; link?: boolean }) => {
+	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 	const user = useUser();
 
 	const notify = useNotify();
 
-	const upvote = async (e: SyntheticEvent) => {
+	const upvote = (e: SyntheticEvent) => {
 		e.stopPropagation();
-		try {
-			await upvoteHandler(entry.id);
-			router.refresh();
-		} catch (e) {
-			if (e instanceof Error) {
-				notify(e.message);
-			} else {
-				notify("Something went wrong.");
+		startTransition(async () => {
+			try {
+				await upvoteHandler(entry.id);
+				router.refresh();
+			} catch (e) {
+				if (e instanceof Error) {
+					notify(e.message);
+				} else {
+					notify("Something went wrong.");
+				}
 			}
-		}
+		});
 	};
 
 	return (
@@ -49,7 +52,10 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 				<p>{entry.description}</p>
 				<CategoryLabel category={entry.category} />
 			</div>
-			<button className={clsx(`${styles.votes}`, user?.upvoted.includes(entry.id) && `${styles.active}`)} onClick={upvote}>
+			<button
+				className={clsx(`${styles.votes}`, user?.upvoted.includes(entry.id) && `${styles.active}`)}
+				onClick={upvote}
+				disabled={isPending}>
 				<IconArrowUp />
 				{entry.upvotes}
 			</button>
