@@ -5,6 +5,9 @@ import styles from "./AddComment.module.scss";
 import Button from "../Button";
 import NotLogged from "../NotLogged";
 import { useUser } from "@/app/contexts/userHooks";
+import { addCommentHandler } from "@/app/services/feedback";
+import { useParams } from "next/navigation";
+import { useNotify } from "@/app/contexts/notificationHooks";
 
 type Inputs = {
 	content: string;
@@ -23,10 +26,22 @@ const AddComment = () => {
 
 	const user = useUser();
 
-	// const submitComment: SubmitHandler<Inputs> = ({ content }) => {
-	// 	addComment(id, content);
-	// 	reset();
-	// };
+	const { id }: { id: string } = useParams();
+
+	const notify = useNotify();
+
+	const submitComment: SubmitHandler<Inputs> = async ({ content }) => {
+		try {
+			await addCommentHandler(id, content);
+			reset();
+		} catch (e) {
+			if (e instanceof Error) {
+				notify(e.message);
+			} else {
+				notify("Something went wrong.");
+			}
+		}
+	};
 
 	if (!user) {
 		return (
@@ -39,7 +54,7 @@ const AddComment = () => {
 	return (
 		<div className={styles.addCommentContainer}>
 			<h3>Add comment</h3>
-			<form onSubmit={handleSubmit(data => console.log(data))}>
+			<form onSubmit={handleSubmit(submitComment)}>
 				<textarea
 					{...register("content", { required: "Can't be empty" })}
 					maxLength={250}

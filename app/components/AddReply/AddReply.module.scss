@@ -1,7 +1,7 @@
 @use "@/app/styles/theme.module.scss" as theme;
 @use "@/app/styles/breakpoints.module.scss" as breakpoints;
 
-.addCommentContainer {
+.addReplyContainer {
 	display: flex;
 	flex-direction: column;
 	@media (min-width: breakpoints.$mobile) {

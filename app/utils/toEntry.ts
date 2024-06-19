@@ -100,15 +100,16 @@ const parseReply = (reply: unknown): Reply => {
 	if (!reply || typeof reply !== "object") {
 		throw new Error("Incorrect or missing reply");
 	}
-	if (!("id" in reply) || !("content" in reply) || !("user" in reply) || !("replyingTo" in reply) || !("entry" in reply)) {
+	if (!("id" in reply) || !("content" in reply) || !("user" in reply) || !("replyingTo" in reply) || !("comment" in reply)) {
 		throw new Error("Some fields are missing");
 	}
+
 	return {
 		id: parseId(reply.id),
 		content: parseContent(reply.content),
 		user: parseAuthor(reply.user),
 		replyingTo: parseReplyingTo(reply.replyingTo),
-		entry: parseId(reply.entry),
+		comment: parseId(reply.comment),
 	};
 };
 
@@ -175,7 +176,7 @@ export const parseEntry = (entry: unknown): Entry => {
 		!("title" in entry) ||
 		!("category" in entry) ||
 		!("upvotes" in entry) ||
-		// !('user' in entry) ||
+		!("user" in entry) ||
 		!("status" in entry) ||
 		!("description" in entry)
 	) {
@@ -187,7 +188,7 @@ export const parseEntry = (entry: unknown): Entry => {
 		title: parseTitle(entry.title),
 		category: parseCategory(entry.category),
 		upvotes: parseUpvotes(entry.upvotes),
-		// user: parseAuthor(entry.user),
+		user: parseAuthor(entry.user),
 		status: parseStatus(entry.status),
 		description: parseDescription(entry.description),
 		commentsCount: "comments" in entry ? parseCommentsLength(entry.comments) : 0,
@@ -214,7 +215,7 @@ export const parseEntryDetailed = (entry: unknown): EntryDetailed => {
 		!("title" in entry) ||
 		!("category" in entry) ||
 		!("upvotes" in entry) ||
-		// !('user' in entry) ||
+		!("user" in entry) ||
 		!("status" in entry) ||
 		!("description" in entry) ||
 		!("comments" in entry)
@@ -227,7 +228,7 @@ export const parseEntryDetailed = (entry: unknown): EntryDetailed => {
 		title: parseTitle(entry.title),
 		category: parseCategory(entry.category),
 		upvotes: parseUpvotes(entry.upvotes),
-		// user: parseAuthor(entry.user),
+		user: parseAuthor(entry.user),
 		status: parseStatus(entry.status),
 		description: parseDescription(entry.description),
 		commentsCount: "comments" in entry ? parseCommentsLength(entry.comments) : 0,

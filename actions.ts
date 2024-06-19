@@ -12,11 +12,14 @@ import userModel from "./app/models/user";
 import { signInSchema } from "./app/lib/authSchema";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import commentModel from "./app/models/comment";
+import replyModel from "./app/models/reply";
+import { NewEntry } from "./app/types";
 
 export async function getSuggestions() {
 	try {
 		await dbConnect();
-		const suggestions = await feedbackModel.find({ status: "suggestion" });
+		const suggestions = await feedbackModel.find({ status: "suggestion" }).populate([{ path: "comments" }, { path: "user" }]);
 		const parsedSuggestions = parseEntries(suggestions);
 		return { success: true, data: parsedSuggestions };
 	} catch (e) {
@@ -31,7 +34,21 @@ export async function getSuggestions() {
 export async function getSingle(id: string) {
 	try {
 		await dbConnect();
-		const feedback = await feedbackModel.findOne({ _id: id });
+		const feedback = await feedbackModel.findById(id).populate([
+			{
+				path: "comments",
+				populate: [
+					{
+						path: "user",
+					},
+					{
+						path: "replies",
+						populate: "user",
+					},
+				],
+			},
+			{ path: "user" },
+		]);
 		const parsedFeedback = parseEntryDetailed(feedback);
 		return { success: true, data: parsedFeedback };
 	} catch (e) {
@@ -48,6 +65,25 @@ export async function getStats() {
 		await dbConnect();
 		const stats = await feedbackModel.aggregate([{ $match: { status: { $ne: "suggestion" } } }]).sortByCount("status");
 		return { success: true, data: stats };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
+}
+
+export async function createEntry(content: NewEntry) {
+	try {
+		await dbConnect();
+		const user = await authorize();
+		if (!user.data) {
+			throw new Error("You need to log in to upvote.");
+		}
+		const entry = await feedbackModel.create({ user: user.data.id, status: "suggestion", upvotes: 0, ...content });
+		revalidatePath("/");
+		return { success: true, data: entry };
 	} catch (e) {
 		if (e instanceof Error) {
 			return { success: false, message: e.message, data: null };
@@ -74,6 +110,46 @@ export async function upvote(id: string) {
 			userPromise = userModel.updateOne({ _id: user.data?.id }, { $pull: { upvoted: id } });
 		}
 		await Promise.all([feedbackPromise, userPromise]);
+		revalidatePath("/");
+		return { success: true, data: null };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
+}
+
+export async function addComment(id: string, content: string) {
+	try {
+		await dbConnect();
+		const user = await authorize();
+		if (!user.data) {
+			throw new Error("You need to log in to comment.");
+		}
+		const comment = await commentModel.create({ entry: id, user: user.data.id, content });
+		await feedbackModel.updateOne({ _id: id }, { $push: { comments: comment._id } });
+		revalidatePath("/");
+		return { success: true, data: null };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
+}
+
+export async function addReply(id: string, content: string, replyingTo: string) {
+	try {
+		await dbConnect();
+		const user = await authorize();
+		if (!user.data) {
+			throw new Error("You need to log in to comment.");
+		}
+		const reply = await replyModel.create({ comment: id, user: user.data.id, content, replyingTo });
+		await commentModel.updateOne({ _id: id }, { $push: { replies: reply._id } });
 		revalidatePath("/");
 		return { success: true, data: null };
 	} catch (e) {
@@ -165,7 +241,6 @@ export async function authorize() {
 			data: { id: user.id, name: user.name, username: user.username, upvoted: user.upvoted, superUser: user.superUser },
 		};
 	} catch (e) {
-		cookies().delete("currentUser");
 		if (e instanceof Error) {
 			return { success: false, message: e.message, data: null };
 		} else {

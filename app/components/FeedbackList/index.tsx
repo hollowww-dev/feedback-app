@@ -18,12 +18,13 @@ import Select from "react-select";
 import Button from "../Button";
 import NoFeedback from "./NoFeedback";
 import { useFilterValue } from "@/app/contexts/filterHooks";
+import Link from "next/link";
 
 const sortByOptions: SortBy[] = [
 	{ label: "Most Upvotes", value: ["upvotes", "desc"] },
 	{ label: "Least Upvotes", value: ["upvotes", "asc"] },
-	{ label: "Most Comments", value: ["comments", "desc"] },
-	{ label: "Least Comments", value: ["comments", "asc"] },
+	{ label: "Most Comments", value: ["commentsCount", "desc"] },
+	{ label: "Least Comments", value: ["commentsCount", "asc"] },
 ];
 
 const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
@@ -57,7 +58,9 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 						/>
 					</div>
 				</div>
-				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
+				<Link href="/entry/addnew" prefetch={true}>
+					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
+				</Link>
 			</div>
 			<div className={styles.entries}>
 				{suggestions.length !== 0 ? (

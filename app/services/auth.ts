@@ -1,4 +1,4 @@
-import { authorize, login, createUser } from "@/actions";
+import { authorize, login, createUser, logout } from "@/actions";
 import { cache } from "react";
 
 export const authorizeHandler = cache(async () => {
@@ -6,7 +6,7 @@ export const authorizeHandler = cache(async () => {
 	if (response.success) {
 		return response.data;
 	} else {
-		throw new Error(response.message);
+		return null;
 	}
 });
 

@@ -18,6 +18,7 @@ export enum Status {
 export interface Entry {
 	id: string;
 	title: string;
+	user: Author;
 	category: Category;
 	upvotes: number;
 	status: Status;
@@ -49,7 +50,7 @@ export type Reply = {
 	content: string;
 	user: Author;
 	replyingTo: string;
-	entry: string;
+	comment: string;
 };
 
 export type Comment = {
@@ -95,5 +96,5 @@ export type Roadmap = {
 
 export type SortBy = {
 	label: string;
-	value: ["upvotes" | "comments", "asc" | "desc"];
+	value: ["upvotes" | "commentsCount", "asc" | "desc"];
 };

@@ -12,32 +12,32 @@ const CommentSingle = ({ comment }: { comment: Comment }) => {
 
 	return (
 		<div className={styles.commentSingle}>
-			<div className="avatar">{comment.user.name[0]}</div>
-			<div className="content">
-				<div className="top">
-					<div className="name">
+			<div className={styles.avatar}>{comment.user.name[0]}</div>
+			<div className={styles.content}>
+				<div className={styles.top}>
+					<div className={styles.name}>
 						<h4>{comment.user.name}</h4>
 						<p>@{comment.user.username}</p>
 					</div>
 					<span
 						onClick={() => (replyingTo !== comment.user.username ? setReplyingTo(comment.user.username) : setReplyingTo(null))}
-						className="reply">
+						className={styles.reply}>
 						Reply
 					</span>
 				</div>
 				<p>{comment.content}</p>
 				{comment.replies?.map((reply, i) => (
 					<div className={`${styles.commentSingle} ${styles.commentReply}`} key={reply.id}>
-						<div className="avatar">{reply.user.name[0]}</div>
-						<div className="content">
-							<div className="top">
-								<div className="name">
+						<div className={styles.avatar}>{reply.user.name[0]}</div>
+						<div className={styles.content}>
+							<div className={styles.top}>
+								<div className={styles.name}>
 									<h4>{reply.user.name}</h4>
 									<p>@{reply.user.username}</p>
 								</div>
 								<span
 									onClick={() => (replyingTo !== reply.user.username ? setReplyingTo(reply.user.username) : setReplyingTo(null))}
-									className="reply">
+									className={styles.reply}>
 									Reply
 								</span>
 							</div>
