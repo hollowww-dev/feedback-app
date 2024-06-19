@@ -13,11 +13,11 @@ export default async function Page() {
 	return (
 		<div className={styles.container}>
 			<Board>
-				<Suspense fallback={<Loading />}>
+				<Suspense key="roadmap" fallback={<Loading />}>
 					<RoadmapBoard />
 				</Suspense>
 			</Board>
-			<Suspense fallback={<Loading />}>
+			<Suspense key="suggestions" fallback={<Loading />}>
 				<FeedbackListLoader />
 			</Suspense>
 		</div>

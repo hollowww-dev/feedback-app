@@ -63,12 +63,12 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 				</Link>
 			</div>
 			<div className={styles.entries}>
-				{suggestions.length !== 0 ? (
+				{suggestions.length === 0 ? (
+					<NoFeedback />
+				) : (
 					_.orderBy(suggestions, sortBy[0], sortBy[1]).map(entry => (
 						<FeedbackEntry key={entry.id} entry={entry} extend={true} link={true} />
 					))
-				) : (
-					<NoFeedback />
 				)}
 			</div>
 		</div>
