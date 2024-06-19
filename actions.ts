@@ -11,7 +11,7 @@ import feedbackModel from "./app/models/feedback";
 import userModel from "./app/models/user";
 import { signInSchema } from "./app/lib/authSchema";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import commentModel from "./app/models/comment";
 import replyModel from "./app/models/reply";
 import { NewEntry } from "./app/types";
@@ -82,7 +82,7 @@ export async function createEntry(content: NewEntry) {
 			throw new Error("You need to log in to upvote.");
 		}
 		const entry = await feedbackModel.create({ user: user.data.id, status: "suggestion", upvotes: 0, ...content });
-		revalidatePath("/");
+		revalidateTag("suggestions");
 		return { success: true, data: entry };
 	} catch (e) {
 		if (e instanceof Error) {
@@ -110,7 +110,8 @@ export async function upvote(id: string) {
 			userPromise = userModel.updateOne({ _id: user.data?.id }, { $pull: { upvoted: id } });
 		}
 		await Promise.all([feedbackPromise, userPromise]);
-		revalidatePath("/");
+		revalidateTag("suggestions");
+		revalidateTag("entry");
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {
@@ -130,7 +131,8 @@ export async function addComment(id: string, content: string) {
 		}
 		const comment = await commentModel.create({ entry: id, user: user.data.id, content });
 		await feedbackModel.updateOne({ _id: id }, { $push: { comments: comment._id } });
-		revalidatePath("/");
+		revalidateTag("entry");
+		revalidateTag("suggestions");
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {
@@ -150,7 +152,8 @@ export async function addReply(id: string, content: string, replyingTo: string) 
 		}
 		const reply = await replyModel.create({ comment: id, user: user.data.id, content, replyingTo });
 		await commentModel.updateOne({ _id: id }, { $push: { replies: reply._id } });
-		revalidatePath("/");
+		revalidateTag("entry");
+		revalidateTag("suggestions");
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {

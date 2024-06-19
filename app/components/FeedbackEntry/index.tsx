@@ -25,19 +25,17 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 
 	const notify = useNotify();
 
-	const upvote = (e: SyntheticEvent) => {
+	const upvote = async (e: SyntheticEvent) => {
 		e.stopPropagation();
-		startTransition(async () => {
-			try {
-				await upvoteHandler(entry.id);
-			} catch (e) {
-				if (e instanceof Error) {
-					notify(e.message);
-				} else {
-					notify("Something went wrong.");
-				}
+		try {
+			await upvoteHandler(entry.id);
+		} catch (e) {
+			if (e instanceof Error) {
+				notify(e.message);
+			} else {
+				notify("Something went wrong.");
 			}
-		});
+		}
 	};
 
 	return (
