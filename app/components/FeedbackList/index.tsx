@@ -2,7 +2,7 @@
 
 import { Entry, SortBy } from "../../types";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 
 import _ from "lodash";
 
@@ -43,7 +43,8 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 					</h2>
 					<div className={styles.sortBy}>
 						<label htmlFor="sortBy">Sort by:</label>
-						{/* <Select
+						<Select
+							className={styles.select}
 							classNamePrefix="select"
 							classNames={{
 								control: state => (state.menuIsOpen ? "select__control--is-open" : ""),
@@ -54,7 +55,7 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 							value={sortByOptions.find(i => i.value === sortBy)}
 							onChange={i => i && setSortBy(i.value)}
 							instanceId="sortBy"
-						/> */}
+						/>
 					</div>
 				</div>
 				<Link href="/entry/addnew" prefetch={true}>
