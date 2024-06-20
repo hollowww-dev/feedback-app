@@ -82,8 +82,23 @@ export async function createEntry(content: NewEntry) {
 			throw new Error("You need to log in to upvote.");
 		}
 		const entry = await feedbackModel.create({ user: user.data.id, status: "suggestion", upvotes: 0, ...content });
+		await entry.populate([
+			{
+				path: "comments",
+				populate: [
+					{
+						path: "user",
+					},
+					{
+						path: "replies",
+						populate: "user",
+					},
+				],
+			},
+			{ path: "user" },
+		]);
 		revalidateTag("suggestions");
-		return { success: true, data: entry };
+		return { success: true, data: parseEntryDetailed(entry) };
 	} catch (e) {
 		if (e instanceof Error) {
 			return { success: false, message: e.message, data: null };

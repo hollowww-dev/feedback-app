@@ -97,7 +97,7 @@ const AddNewPage = () => {
 								options={categoryOptions}
 								value={categoryOptions.find(c => c.value === field.value)}
 								onChange={v => field.onChange(v?.value)}
-								inputId="category"
+								instanceId="category"
 							/>
 						)}
 					/>

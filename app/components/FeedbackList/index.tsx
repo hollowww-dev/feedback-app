@@ -27,7 +27,7 @@ const sortByOptions: SortBy[] = [
 	{ label: "Least Comments", value: ["commentsCount", "asc"] },
 ];
 
-const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
+export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 	const [sortBy, setSortBy] = useState<SortBy["value"]>(["upvotes", "desc"]);
 	const filter = useFilterValue();
 
@@ -53,7 +53,6 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 							defaultValue={sortByOptions[0]}
 							value={sortByOptions.find(i => i.value === sortBy)}
 							onChange={i => i && setSortBy(i.value)}
-							inputId="sortBy"
 							instanceId="sortBy"
 						/>
 					</div>
@@ -62,7 +61,7 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
 				</Link>
 			</div>
-			{/* <div className={styles.entries}>
+			<div className={styles.entries}>
 				{suggestions.length === 0 ? (
 					<NoFeedback />
 				) : (
@@ -70,7 +69,7 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 						<FeedbackEntry key={entry.id} entry={entry} extend={true} link={true} />
 					))
 				)}
-			</div> */}
+			</div>
 		</div>
 	);
 };
