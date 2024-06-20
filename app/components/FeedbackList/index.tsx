@@ -41,9 +41,9 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 					<h2 className={styles.suggestions}>
 						<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
 						{suggestions.length} Suggestions
-					</h2>
-					<div className={styles.sortBy}>
-						<ClientOnly>
+					</h2>{" "}
+					<ClientOnly>
+						<div className={styles.sortBy}>
 							<label htmlFor="sortBy">Sort by:</label>
 							<Select
 								name="sortBy"
@@ -59,8 +59,8 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 								onChange={i => i && setSortBy(i.value)}
 								instanceId="sortBy"
 							/>
-						</ClientOnly>
-					</div>
+						</div>
+					</ClientOnly>
 				</div>
 				<Link href="/entry/addnew" prefetch={true}>
 					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
