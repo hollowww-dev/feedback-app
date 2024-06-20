@@ -62,7 +62,7 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
 				</Link>
 			</div>
-			<div className={styles.entries}>
+			{/* <div className={styles.entries}>
 				{suggestions.length === 0 ? (
 					<NoFeedback />
 				) : (
@@ -70,7 +70,7 @@ const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
 						<FeedbackEntry key={entry.id} entry={entry} extend={true} link={true} />
 					))
 				)}
-			</div>
+			</div> */}
 		</div>
 	);
 };
