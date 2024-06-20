@@ -4,7 +4,7 @@ import dbConnect from "./app/lib/mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import { parseEntries, parseEntryDetailed } from "./app/utils/toEntry";
+import { parseEntries, parseEntry, parseEntryDetailed } from "./app/utils/toEntry";
 import { toNewUser } from "./app/utils/toUser";
 
 import feedbackModel from "./app/models/feedback";

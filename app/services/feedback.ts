@@ -12,7 +12,7 @@ export const getSuggestionsHandler = unstable_cache(
 		}
 	},
 	["suggestions"],
-	{ tags: ["suggestions"] }
+	{ tags: ["suggestions"], revalidate: 1800 }
 );
 export const getStatsHandler = unstable_cache(
 	async () => {
@@ -24,7 +24,7 @@ export const getStatsHandler = unstable_cache(
 		}
 	},
 	["stats"],
-	{ tags: ["stats"] }
+	{ tags: ["stats"], revalidate: 1800 }
 );
 
 export const getSingleHandler = unstable_cache(
@@ -37,7 +37,7 @@ export const getSingleHandler = unstable_cache(
 		}
 	},
 	["entry"],
-	{ tags: ["entry"] }
+	{ tags: ["entry"], revalidate: 1800 }
 );
 
 export const createEntryHandler = async (content: NewEntry) => {
