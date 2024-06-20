@@ -2,7 +2,7 @@
 
 import { Entry, SortBy } from "../../types";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 import _ from "lodash";
 
