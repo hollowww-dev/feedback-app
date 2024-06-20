@@ -44,6 +44,7 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 					<div className={styles.sortBy}>
 						<label htmlFor="sortBy">Sort by:</label>
 						<Select
+							name="sortBy"
 							className={styles.select}
 							classNamePrefix="select"
 							classNames={{
