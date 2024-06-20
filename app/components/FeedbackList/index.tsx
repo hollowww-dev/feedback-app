@@ -19,6 +19,7 @@ import Button from "../Button";
 import NoFeedback from "./NoFeedback";
 import { useFilterValue } from "@/app/contexts/filterHooks";
 import Link from "next/link";
+import ClientOnly from "../ClientOnly";
 
 const sortByOptions: SortBy[] = [
 	{ label: "Most Upvotes", value: ["upvotes", "desc"] },
@@ -42,21 +43,23 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 						{suggestions.length} Suggestions
 					</h2>
 					<div className={styles.sortBy}>
-						<label htmlFor="sortBy">Sort by:</label>
-						<Select
-							name="sortBy"
-							className={styles.select}
-							classNamePrefix="select"
-							classNames={{
-								control: state => (state.menuIsOpen ? "select__control--is-open" : ""),
-							}}
-							isSearchable={false}
-							options={sortByOptions}
-							defaultValue={sortByOptions[0]}
-							value={sortByOptions.find(i => i.value === sortBy)}
-							onChange={i => i && setSortBy(i.value)}
-							instanceId="sortBy"
-						/>
+						<ClientOnly>
+							<label htmlFor="sortBy">Sort by:</label>
+							<Select
+								name="sortBy"
+								className={styles.select}
+								classNamePrefix="select"
+								classNames={{
+									control: state => (state.menuIsOpen ? "select__control--is-open" : ""),
+								}}
+								isSearchable={false}
+								options={sortByOptions}
+								defaultValue={sortByOptions[0]}
+								value={sortByOptions.find(i => i.value === sortBy)}
+								onChange={i => i && setSortBy(i.value)}
+								instanceId="sortBy"
+							/>
+						</ClientOnly>
 					</div>
 				</div>
 				<Link href="/entry/addnew" prefetch={true}>
