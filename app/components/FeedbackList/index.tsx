@@ -41,7 +41,7 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 					<h2 className={styles.suggestions}>
 						<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
 						{suggestions.length} Suggestions
-					</h2>{" "}
+					</h2>
 					<ClientOnly>
 						<div className={styles.sortBy}>
 							<label htmlFor="sortBy">Sort by:</label>
@@ -62,7 +62,7 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 						</div>
 					</ClientOnly>
 				</div>
-				<Link href="/entry/addnew" prefetch={true}>
+				<Link href="/entry/addnew">
 					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
 				</Link>
 			</div>

@@ -97,7 +97,7 @@ export async function createEntry(content: NewEntry) {
 			},
 			{ path: "user" },
 		]);
-		revalidateTag("suggestions");
+		revalidatePath("/");
 		return { success: true, data: parseEntryDetailed(entry) };
 	} catch (e) {
 		if (e instanceof Error) {
@@ -125,8 +125,7 @@ export async function upvote(id: string) {
 			userPromise = userModel.updateOne({ _id: user.data?.id }, { $pull: { upvoted: id } });
 		}
 		await Promise.all([feedbackPromise, userPromise]);
-		revalidateTag("suggestions");
-		revalidateTag("entry");
+		revalidatePath("/");
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {
@@ -146,8 +145,7 @@ export async function addComment(id: string, content: string) {
 		}
 		const comment = await commentModel.create({ entry: id, user: user.data.id, content });
 		await feedbackModel.updateOne({ _id: id }, { $push: { comments: comment._id } });
-		revalidateTag("entry");
-		revalidateTag("suggestions");
+		revalidatePath("/");
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {
@@ -167,8 +165,7 @@ export async function addReply(id: string, content: string, replyingTo: string) 
 		}
 		const reply = await replyModel.create({ comment: id, user: user.data.id, content, replyingTo });
 		await commentModel.updateOne({ _id: id }, { $push: { replies: reply._id } });
-		revalidateTag("entry");
-		revalidateTag("suggestions");
+		revalidatePath("/");
 		return { success: true, data: null };
 	} catch (e) {
 		if (e instanceof Error) {

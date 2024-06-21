@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 import AddComment from "@/app/components/AddComment";
 import { Suspense } from "react";
 import Loading from "@/app/loading";
+import Permitted from "@/app/components/Permitted";
+import Button from "@/app/components/Button";
 
 async function EntryLoader({ params }: { params: { id: string } }) {
 	const entry = await getSingleHandler(params.id);
@@ -18,6 +20,9 @@ async function EntryLoader({ params }: { params: { id: string } }) {
 		<div className={styles.entryContainer}>
 			<div className={styles.top}>
 				<GoBack />
+				<Permitted>
+					<Button type="button" label="Edit feedback" variant="edit" />
+				</Permitted>
 			</div>
 			<FeedbackEntry entry={entry} extend={true} />
 			<CommentsList comments={entry.comments || []} />

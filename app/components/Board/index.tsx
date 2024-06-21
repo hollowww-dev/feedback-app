@@ -46,13 +46,9 @@ const Board = ({ children }: { children?: JSX.Element | ReactNode }) => {
 							</>
 						) : (
 							<>
-								<Link href="/signin" prefetch={true}>
-									Sign in
-								</Link>
+								<Link href="/signin">Sign in</Link>
 								{" | "}
-								<Link href="/signup" prefetch={true}>
-									Sign up
-								</Link>
+								<Link href="/signup">Sign up</Link>
 							</>
 						)}
 					</p>
