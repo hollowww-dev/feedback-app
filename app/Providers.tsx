@@ -1,15 +1,17 @@
 "use client";
-import { User } from "./types";
 import { FilterContextProvider } from "./contexts/FilterContext";
 import { NotificationContextProvider } from "./contexts/NotificationContext";
-import UserContext from "./contexts/userContext";
+import { QueryClientProvider } from "@tanstack/react-query";
+import getQueryClient from "./lib/getQueryClient";
 
-export default function Providers({ children, user }: { children: React.ReactNode; user: Omit<User, "passwordHash"> | null }) {
+export default function Providers({ children }: { children: React.ReactNode }) {
+	const queryClient = getQueryClient();
+
 	return (
-		<NotificationContextProvider>
-			<FilterContextProvider>
-				<UserContext.Provider value={user}>{children}</UserContext.Provider>
-			</FilterContextProvider>
-		</NotificationContextProvider>
+		<QueryClientProvider client={queryClient}>
+			<NotificationContextProvider>
+				<FilterContextProvider>{children}</FilterContextProvider>
+			</NotificationContextProvider>
+		</QueryClientProvider>
 	);
 }

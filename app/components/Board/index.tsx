@@ -11,9 +11,9 @@ import IconClose from "@/assets/shared/mobile/icon-close.svg";
 import IconHamburger from "@/assets/shared/mobile/icon-hamburger.svg";
 import CategoryBoard from "../CategoryBoard";
 import clsx from "clsx";
-import { useUser } from "@/app/contexts/userHooks";
 import { logout } from "@/actions";
 import { useNotify } from "@/app/contexts/notificationHooks";
+import useUser from "@/app/hooks/useUser";
 
 const Board = ({ children }: { children?: JSX.Element | ReactNode }) => {
 	const [isOpen, setIsOpen] = useState(false);

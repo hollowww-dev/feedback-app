@@ -4,10 +4,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./AddComment.module.scss";
 import Button from "../Button";
 import NotLogged from "../NotLogged";
-import { useUser } from "@/app/contexts/userHooks";
 import { addCommentHandler } from "@/app/services/feedback";
 import { useParams } from "next/navigation";
 import { useNotify } from "@/app/contexts/notificationHooks";
+import useUser from "@/app/hooks/useUser";
 
 type Inputs = {
 	content: string;

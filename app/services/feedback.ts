@@ -2,14 +2,14 @@ import { cache } from "react";
 import { addComment, addReply, createEntry, getSingle, getStats, getSuggestions, upvote } from "@/actions";
 import { NewEntry } from "../types";
 
-export const getSuggestionsHandler = cache(async () => {
+export const getSuggestionsHandler = async () => {
 	const response = await getSuggestions();
 	if (response.success) {
 		return response.data;
 	} else {
 		throw new Error(response.message);
 	}
-});
+};
 export const getStatsHandler = cache(async () => {
 	const response = await getStats();
 	if (response.success) {
@@ -19,14 +19,14 @@ export const getStatsHandler = cache(async () => {
 	}
 });
 
-export const getSingleHandler = cache(async (id: string) => {
+export const getSingleHandler = async (id: string) => {
 	const response = await getSingle(id);
 	if (response.success) {
 		return response.data;
 	} else {
 		throw new Error(response.message);
 	}
-});
+};
 
 export const createEntryHandler = async (content: NewEntry) => {
 	const response = await createEntry(content);

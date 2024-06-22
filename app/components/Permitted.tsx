@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { useUser } from "../contexts/userHooks";
+import useUser from "../hooks/useUser";
 
 const Permitted = ({ children }: { children: ReactNode }) => {
 	const user = useUser();

@@ -1,6 +1,6 @@
 "use client";
 
-import { Entry, SortBy } from "../../types";
+import { SortBy } from "../../types";
 
 import { useState } from "react";
 
@@ -20,6 +20,8 @@ import NoFeedback from "./NoFeedback";
 import { useFilterValue } from "@/app/contexts/filterHooks";
 import Link from "next/link";
 import ClientOnly from "../ClientOnly";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getSuggestionsHandler } from "@/app/services/feedback";
 
 const sortByOptions: SortBy[] = [
 	{ label: "Most Upvotes", value: ["upvotes", "desc"] },
@@ -28,9 +30,11 @@ const sortByOptions: SortBy[] = [
 	{ label: "Least Comments", value: ["commentsCount", "asc"] },
 ];
 
-export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) => {
+export const FeedbackList = () => {
 	const [sortBy, setSortBy] = useState<SortBy["value"]>(["upvotes", "desc"]);
 	const filter = useFilterValue();
+
+	const { data: rawSuggestions } = useSuspenseQuery({ queryKey: ["entries", { status: "suggestion" }], queryFn: getSuggestionsHandler });
 
 	const suggestions = filter === "all" ? rawSuggestions : rawSuggestions.filter(entry => entry.category === filter);
 
@@ -58,6 +62,7 @@ export const FeedbackList = ({ rawSuggestions }: { rawSuggestions: Entry[] }) =>
 								value={sortByOptions.find(i => i.value === sortBy)}
 								onChange={i => i && setSortBy(i.value)}
 								instanceId="sortBy"
+								inputId="sortBy"
 							/>
 						</div>
 					</ClientOnly>

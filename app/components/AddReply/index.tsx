@@ -6,9 +6,9 @@ import styles from "./AddReply.module.scss";
 
 import NotLogged from "../NotLogged";
 import Button from "../Button";
-import { useUser } from "@/app/contexts/userHooks";
 import { addReplyHandler } from "@/app/services/feedback";
 import { useNotify } from "@/app/contexts/notificationHooks";
+import useUser from "@/app/hooks/useUser";
 
 type Inputs = {
 	content: string;
