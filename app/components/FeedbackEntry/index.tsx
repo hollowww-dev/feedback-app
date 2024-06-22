@@ -33,8 +33,9 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 				return;
 			}
 
-			await queryClient.cancelQueries({ queryKey: ["entries", { status: "suggestion" }], exact: true });
-			await queryClient.cancelQueries({ queryKey: ["entries", entry.id], exact: true });
+			await queryClient.cancelQueries({ queryKey: ["entries", { status: "suggestion" }] });
+			await queryClient.cancelQueries({ queryKey: ["entries", entry.id] });
+			await queryClient.cancelQueries({ queryKey: ["user"], exact: true });
 
 			const oldSuggestions: Entry[] | undefined = queryClient.getQueryData(["entries", { status: "suggestion" }]);
 			const oldEntry: EntryDetailed | undefined = queryClient.getQueryData(["entries", entry.id]);
@@ -85,6 +86,11 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			context?.oldSuggestions && queryClient.setQueryData(["entries", { status: "suggestion" }], context.oldSuggestions);
 			context?.oldEntry && queryClient.setQueryData(["entries", context.oldEntry.id], context.oldEntry);
 			context?.oldUser && queryClient.setQueryData(["user"], context.oldUser);
+		},
+		onSettled: async () => {
+			await queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
+			await queryClient.invalidateQueries({ queryKey: ["entries", entry.id] });
+			await queryClient.invalidateQueries({ queryKey: ["user"] });
 		},
 	});
 
