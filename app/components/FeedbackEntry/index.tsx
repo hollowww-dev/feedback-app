@@ -89,7 +89,6 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 		onSettled: async () => {
 			await queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
 			await queryClient.invalidateQueries({ queryKey: ["entries", entry.id] });
-			await queryClient.invalidateQueries({ queryKey: ["user"] });
 		},
 	});
 
