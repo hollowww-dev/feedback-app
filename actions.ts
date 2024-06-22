@@ -4,7 +4,7 @@ import dbConnect from "./app/lib/mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import { parseEntries, parseEntry, parseEntryDetailed } from "./app/utils/toEntry";
+import { parseComment, parseEntries, parseEntry, parseEntryDetailed } from "./app/utils/toEntry";
 import { toNewUser } from "./app/utils/toUser";
 
 import feedbackModel from "./app/models/feedback";
@@ -97,7 +97,6 @@ export async function createEntry(content: NewEntry) {
 			},
 			{ path: "user" },
 		]);
-		revalidatePath("/");
 		return { success: true, data: parseEntryDetailed(entry) };
 	} catch (e) {
 		if (e instanceof Error) {
@@ -144,8 +143,8 @@ export async function addComment(id: string, content: string) {
 		}
 		const comment = await commentModel.create({ entry: id, user: user.data.id, content });
 		await feedbackModel.updateOne({ _id: id }, { $push: { comments: comment._id } });
-		revalidatePath("/");
-		return { success: true, data: null };
+		await comment.populate("user");
+		return { success: true, data: parseComment(comment) };
 	} catch (e) {
 		if (e instanceof Error) {
 			return { success: false, message: e.message, data: null };

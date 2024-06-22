@@ -2,7 +2,7 @@
 
 import styles from "@/app/components/Form.module.scss";
 
-import { Category } from "../../types";
+import { Category, Entry, EntryDetailed } from "../../types";
 
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 
@@ -15,6 +15,7 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useNotify } from "@/app/contexts/notificationHooks";
 import { createEntryHandler } from "@/app/services/feedback";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Inputs = {
 	title: string;
@@ -37,32 +38,37 @@ const AddNewPage = () => {
 		register,
 		handleSubmit,
 		control,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<Inputs>({ mode: "onTouched" });
 
 	const notify = useNotify();
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
-	const send: SubmitHandler<Inputs> = async data => {
-		try {
-			const entry = await createEntryHandler(data);
-			notify(`"${entry?.title}" created.`);
-			router.push("/");
-		} catch (e) {
-			if (e instanceof Error) {
-				notify(e.message);
+	const { mutate: addNew, isPending } = useMutation({
+		mutationKey: ["addNew"],
+		mutationFn: createEntryHandler,
+		onError: error => {
+			if (error instanceof Error) {
+				notify(error.message);
 			} else {
 				notify("Something went wrong.");
 			}
-		}
-	};
+		},
+		onSuccess: (data: EntryDetailed) => {
+			queryClient.setQueryData(["entries", { status: "suggestion" }], (suggestions: Entry[]) => suggestions && suggestions.concat(data));
+			queryClient.setQueryData(["entries", data.id], data);
+			notify(`"${data.title}" added.`);
+			router.replace(`/entry/${data.id}`);
+		},
+	});
 
 	return (
 		<div className={styles.formContainer}>
 			<div className={styles.top}>
 				<GoBack />
 			</div>
-			<form onSubmit={handleSubmit(send)}>
+			<form onSubmit={handleSubmit(data => addNew(data))}>
 				<h2>Create New Feedback</h2>
 				<label htmlFor="title">
 					<h4>Feedback Title</h4>
@@ -115,8 +121,8 @@ const AddNewPage = () => {
 					<span className={styles.errorMessage}>{errors?.description?.message && errors.description.message}</span>
 				</div>
 				<div className={styles.buttons}>
-					<Button type="submit" label="Add feedback" variant="primary" disabled={isSubmitting} />
-					<Button type="button" label="Cancel" variant="secondary" disabled={isSubmitting} onClick={() => router.back()} />
+					<Button type="submit" label="Add feedback" variant="primary" disabled={isPending} />
+					<Button type="button" label="Cancel" variant="secondary" disabled={isPending} onClick={() => router.back()} />
 				</div>
 			</form>
 		</div>

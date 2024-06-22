@@ -121,7 +121,7 @@ const parseReplies = (replies: unknown): Reply[] => {
 	return replies.map((reply: Reply) => parseReply(reply));
 };
 
-const parseComment = (comment: unknown): Comment => {
+export const parseComment = (comment: unknown): Comment => {
 	if (!comment || typeof comment !== "object") {
 		throw new Error("Incorrect or missing comment");
 	}

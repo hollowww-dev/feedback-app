@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import styles from "./AddComment.module.scss";
 import Button from "../Button";
 import NotLogged from "../NotLogged";
@@ -8,6 +8,8 @@ import { addCommentHandler } from "@/app/services/feedback";
 import { useParams } from "next/navigation";
 import { useNotify } from "@/app/contexts/notificationHooks";
 import useUser from "@/app/hooks/useUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EntryDetailed, Comment } from "@/app/types";
 
 type Inputs = {
 	content: string;
@@ -19,7 +21,7 @@ const AddComment = () => {
 		handleSubmit,
 		watch,
 		reset,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<Inputs>({ mode: "onSubmit" });
 
 	const commentValue = watch("content");
@@ -30,18 +32,26 @@ const AddComment = () => {
 
 	const notify = useNotify();
 
-	const submitComment: SubmitHandler<Inputs> = async ({ content }) => {
-		try {
-			await addCommentHandler(id, content);
-			reset();
-		} catch (e) {
-			if (e instanceof Error) {
-				notify(e.message);
+	const queryClient = useQueryClient();
+
+	const { mutate: submitComment, isPending } = useMutation({
+		mutationKey: ["addComment"],
+		mutationFn: ({ content }: { content: string }) => addCommentHandler(id, content),
+		onError: error => {
+			if (error instanceof Error) {
+				notify(error.message);
 			} else {
 				notify("Something went wrong.");
 			}
-		}
-	};
+		},
+		onSuccess: async (comment: Comment) => {
+			queryClient.setQueryData(["entries", id], (old: EntryDetailed) => {
+				return { ...old, comments: old.comments?.concat(comment) };
+			});
+			reset();
+			await queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
+		},
+	});
 
 	if (!user) {
 		return (
@@ -54,7 +64,7 @@ const AddComment = () => {
 	return (
 		<div className={styles.addCommentContainer}>
 			<h3>Add comment</h3>
-			<form onSubmit={handleSubmit(submitComment)}>
+			<form onSubmit={handleSubmit(content => submitComment(content))}>
 				<textarea
 					{...register("content", { required: "Can't be empty" })}
 					maxLength={250}
@@ -63,7 +73,7 @@ const AddComment = () => {
 				<span className={styles.errorMessage}>{errors?.content?.message && errors.content.message}</span>
 				<div className={styles.bottom}>
 					<p>{250 - (commentValue?.length || 0)} characters left</p>
-					<Button type="submit" label="Add comment" variant="primary" disabled={isSubmitting} />
+					<Button type="submit" label="Add comment" variant="primary" disabled={isPending} />
 				</div>
 			</form>
 		</div>

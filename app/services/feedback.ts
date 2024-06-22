@@ -30,7 +30,7 @@ export const getSingleHandler = async (id: string) => {
 
 export const createEntryHandler = async (content: NewEntry) => {
 	const response = await createEntry(content);
-	if (response.success) {
+	if (response.success && response.data !== null) {
 		return response.data;
 	} else {
 		throw new Error(response.message);
@@ -46,7 +46,9 @@ export const upvoteHandler = async (id: string) => {
 
 export const addCommentHandler = async (id: string, content: string) => {
 	const response = await addComment(id, content);
-	if (!response.success) {
+	if (response.success && response.data !== null) {
+		return response.data;
+	} else {
 		throw new Error(response.message);
 	}
 };
