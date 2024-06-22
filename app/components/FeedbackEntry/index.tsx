@@ -35,7 +35,6 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 
 			await queryClient.cancelQueries({ queryKey: ["entries", { status: "suggestion" }] });
 			await queryClient.cancelQueries({ queryKey: ["entries", entry.id] });
-			await queryClient.cancelQueries({ queryKey: ["user"], exact: true });
 
 			const oldSuggestions: Entry[] | undefined = queryClient.getQueryData(["entries", { status: "suggestion" }]);
 			const oldEntry: EntryDetailed | undefined = queryClient.getQueryData(["entries", entry.id]);
@@ -90,7 +89,6 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 		onSettled: async () => {
 			await queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
 			await queryClient.invalidateQueries({ queryKey: ["entries", entry.id] });
-			await queryClient.invalidateQueries({ queryKey: ["user"] });
 		},
 	});
 
