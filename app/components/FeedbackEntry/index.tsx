@@ -86,10 +86,6 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			context?.oldEntry && queryClient.setQueryData(["entries", context.oldEntry.id], context.oldEntry);
 			context?.oldUser && queryClient.setQueryData(["user"], context.oldUser);
 		},
-		onSettled: async () => {
-			await queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
-			await queryClient.invalidateQueries({ queryKey: ["entries", entry.id] });
-		},
 	});
 
 	return (
