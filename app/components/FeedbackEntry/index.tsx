@@ -32,10 +32,11 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			if (!user) {
 				return;
 			}
-
-			await queryClient.cancelQueries({ queryKey: ["entries", { status: "suggestion" }] });
-			await queryClient.cancelQueries({ queryKey: ["entries", entry.id] });
-			await queryClient.cancelQueries({ queryKey: ["user"] });
+			await Promise.all([
+				queryClient.cancelQueries({ queryKey: ["entries", { status: "suggestion" }] }),
+				queryClient.cancelQueries({ queryKey: ["entries", entry.id] }),
+				queryClient.cancelQueries({ queryKey: ["user"] }),
+			]);
 
 			const oldSuggestions: Entry[] | undefined = queryClient.getQueryData(["entries", { status: "suggestion" }]);
 			const oldEntry: EntryDetailed | undefined = queryClient.getQueryData(["entries", entry.id]);
@@ -88,9 +89,11 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			context?.oldUser && queryClient.setQueryData(["user"], context.oldUser);
 		},
 		onSettled: async () => {
-			queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] }, { cancelRefetch: false });
-			queryClient.invalidateQueries({ queryKey: ["entries", entry.id] }, { cancelRefetch: false });
-			queryClient.invalidateQueries({ queryKey: ["user"] }, { cancelRefetch: false });
+			await Promise.all([
+				queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] }, { cancelRefetch: false }),
+				queryClient.invalidateQueries({ queryKey: ["entries", entry.id] }, { cancelRefetch: false }),
+				queryClient.invalidateQueries({ queryKey: ["user"] }, { cancelRefetch: false }),
+			]);
 		},
 	});
 
