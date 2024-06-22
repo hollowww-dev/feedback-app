@@ -34,7 +34,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			}
 
 			await queryClient.cancelQueries({ queryKey: ["entries", { status: "suggestion" }] });
-			await queryClient.cancelQueries({ queryKey: ["entries", entry.id] });
+			await queryClient.cancelQueries({ queryKey: ["entries", entry.id], exact: true });
 			await queryClient.cancelQueries({ queryKey: ["user"], exact: true });
 
 			const oldSuggestions: Entry[] | undefined = queryClient.getQueryData(["entries", { status: "suggestion" }]);
