@@ -44,12 +44,12 @@ const AddComment = () => {
 				notify("Something went wrong.");
 			}
 		},
-		onSuccess: async (comment: Comment) => {
+		onSuccess: async comment => {
 			queryClient.setQueryData(["entries", id], (old: EntryDetailed) => {
-				return { ...old, comments: old.comments?.concat(comment) };
+				return { ...old, comments: old.comments?.concat(comment), commentsCount: ++old.commentsCount };
 			});
 			reset();
-			await queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
+			queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
 		},
 	});
 

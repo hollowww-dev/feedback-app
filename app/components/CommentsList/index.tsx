@@ -41,7 +41,9 @@ const CommentSingle = ({ comment }: { comment: Comment }) => {
 									Reply
 								</span>
 							</div>
-							<p>{reply.content}</p>
+							<p>
+								<span className={styles.replyingTo}>@{reply.replyingTo}</span> {reply.content}
+							</p>
 							{i + 1 === comment?.replies?.length && replyingTo && (
 								<AddReply commentId={comment.id} replyingTo={replyingTo} setReplyingTo={setReplyingTo} />
 							)}

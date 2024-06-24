@@ -4,7 +4,7 @@ import AddNewPage from "./AddNewPage";
 
 export default async function Page() {
 	return (
-		<Suspense key="signup" fallback={<Loading />}>
+		<Suspense key="addnew" fallback={<Loading />}>
 			<AddNewPage />
 		</Suspense>
 	);

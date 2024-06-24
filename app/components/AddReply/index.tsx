@@ -9,6 +9,8 @@ import Button from "../Button";
 import { addReplyHandler } from "@/app/services/feedback";
 import { useNotify } from "@/app/contexts/notificationHooks";
 import useUser from "@/app/hooks/useUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Entry, EntryDetailed } from "@/app/types";
 
 type Inputs = {
 	content: string;
@@ -34,26 +36,40 @@ const AddReply = ({
 
 	const user = useUser();
 
-	const submitReply: SubmitHandler<Inputs> = async ({ content }) => {
-		try {
-			await addReplyHandler(commentId, content, replyingTo);
-			setReplyingTo(null);
-			reset();
-		} catch (e) {
-			if (e instanceof Error) {
-				notify(e.message);
+	const queryClient = useQueryClient();
+
+	const { mutate: submitReply } = useMutation({
+		mutationKey: ["addReply"],
+		mutationFn: ({ content }: { content: string }) => addReplyHandler(commentId, content, replyingTo),
+		onError: error => {
+			if (error instanceof Error) {
+				notify(error.message);
 			} else {
 				notify("Something went wrong.");
 			}
-		}
-	};
+		},
+		onSuccess: async response => {
+			queryClient.setQueryData(["entries", response.entry], (old: EntryDetailed) => {
+				return {
+					...old,
+					comments: old.comments?.map(comment =>
+						comment.id === response.reply.comment ? { ...comment, replies: comment.replies?.concat(response.reply) } : comment
+					),
+					commentsCount: ++old.commentsCount,
+				};
+			});
+			reset();
+			setReplyingTo(null);
+			queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] });
+		},
+	});
 
 	if (!user) {
 		return <NotLogged />;
 	}
 
 	return (
-		<form className={styles.addReplyContainer} onSubmit={handleSubmit(submitReply)}>
+		<form className={styles.addReplyContainer} onSubmit={handleSubmit(content => submitReply(content))}>
 			<div className={styles.input}>
 				<textarea
 					{...register("content", { required: "Can't be empty" })}

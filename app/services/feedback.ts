@@ -55,7 +55,9 @@ export const addCommentHandler = async (id: string, content: string) => {
 
 export const addReplyHandler = async (id: string, content: string, replyingTo: string) => {
 	const response = await addReply(id, content, replyingTo);
-	if (!response.success) {
+	if (response.success && response.data !== null) {
+		return response.data;
+	} else {
 		throw new Error(response.message);
 	}
 };

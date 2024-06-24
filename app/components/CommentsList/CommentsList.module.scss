@@ -20,6 +20,10 @@
 		padding: 0.5em 0;
 		margin-left: -20px;
 		border-bottom: none;
+		.replyingTo {
+			font-weight: 800;
+			color: theme.$primary;
+		}
 	}
 	.avatar {
 		display: flex;

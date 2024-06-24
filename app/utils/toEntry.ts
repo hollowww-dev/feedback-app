@@ -96,7 +96,7 @@ const parseReplyingTo = (replyingTo: unknown): string => {
 	return replyingTo;
 };
 
-const parseReply = (reply: unknown): Reply => {
+export const parseReply = (reply: unknown): Reply => {
 	if (!reply || typeof reply !== "object") {
 		throw new Error("Incorrect or missing reply");
 	}

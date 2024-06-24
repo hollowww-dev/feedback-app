@@ -4,7 +4,7 @@ import dbConnect from "./app/lib/mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import { parseComment, parseEntries, parseEntry, parseEntryDetailed } from "./app/utils/toEntry";
+import { parseComment, parseEntries, parseEntry, parseEntryDetailed, parseReply } from "./app/utils/toEntry";
 import { toNewUser } from "./app/utils/toUser";
 
 import feedbackModel from "./app/models/feedback";
@@ -14,7 +14,7 @@ import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import commentModel from "./app/models/comment";
 import replyModel from "./app/models/reply";
-import { NewEntry } from "./app/types";
+import { Comment, NewEntry } from "./app/types";
 
 export async function getSuggestions() {
 	try {
@@ -162,9 +162,9 @@ export async function addReply(id: string, content: string, replyingTo: string) 
 			throw new Error("You need to log in to comment.");
 		}
 		const reply = await replyModel.create({ comment: id, user: user.data.id, content, replyingTo });
-		await commentModel.updateOne({ _id: id }, { $push: { replies: reply._id } });
-		revalidatePath("/");
-		return { success: true, data: null };
+		const comment = await commentModel.findOneAndUpdate({ _id: id }, { $push: { replies: reply._id } });
+		await reply.populate("user");
+		return { success: true, data: { reply: parseReply(reply), entry: comment.entry } };
 	} catch (e) {
 		if (e instanceof Error) {
 			return { success: false, message: e.message, data: null };

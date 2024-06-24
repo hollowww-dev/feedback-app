@@ -11,7 +11,7 @@ export default async function Page() {
 			<Board>
 				<RoadmapBoard />
 			</Board>
-			<Suspense fallback={<Loading />}>
+			<Suspense key="feedbackList" fallback={<Loading />}>
 				<FeedbackListLoader />
 			</Suspense>
 		</div>

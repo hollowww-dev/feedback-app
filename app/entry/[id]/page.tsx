@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 export default async function Page({ params }: { params: { id: string } }) {
 	return (
-		<Suspense fallback={<Loading />}>
+		<Suspense key={params.id} fallback={<Loading />}>
 			<EntryPageLoader params={params} />
 		</Suspense>
 	);
