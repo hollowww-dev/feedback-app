@@ -29,7 +29,7 @@ const AddReply = ({
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<Inputs>({ mode: "onSubmit" });
 
 	const notify = useNotify();
@@ -38,7 +38,7 @@ const AddReply = ({
 
 	const queryClient = useQueryClient();
 
-	const { mutate: submitReply } = useMutation({
+	const { mutate: submitReply, isPending } = useMutation({
 		mutationKey: ["addReply"],
 		mutationFn: ({ content }: { content: string }) => addReplyHandler(commentId, content, replyingTo),
 		onError: error => {
@@ -78,7 +78,7 @@ const AddReply = ({
 				/>
 				<span className={styles.errorMessage}>{errors?.content?.message && errors.content.message}</span>
 			</div>
-			<Button label="Reply" type="submit" variant="primary" disabled={isSubmitting} />
+			<Button label="Reply" type="submit" variant="primary" disabled={isPending} />
 		</form>
 	);
 };

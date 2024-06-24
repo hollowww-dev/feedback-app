@@ -110,7 +110,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			</div>
 			<button
 				className={clsx(`${styles.votes}`, user?.upvoted.includes(entry.id) && `${styles.active}`)}
-				onClick={e => {
+				onClick={async e => {
 					e.stopPropagation();
 					upvoteMutation.mutate(entry.id);
 				}}>
