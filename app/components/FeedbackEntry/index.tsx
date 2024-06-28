@@ -37,7 +37,7 @@ export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 			</button>
 			<div className={styles.comments}>
 				<Image src={IconComments} alt="Comments icon" />
-				<p> </p>
+				<p>?</p>
 			</div>
 		</div>
 	);
