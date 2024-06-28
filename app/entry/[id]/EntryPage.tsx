@@ -9,6 +9,7 @@ import GoBack from "@/app/components/GoBack";
 import Permitted from "@/app/components/Permitted";
 import { getSingleHandler } from "@/app/services/feedback";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
 
 function EntryPage() {
@@ -28,7 +29,9 @@ function EntryPage() {
 			<div className={styles.top}>
 				<GoBack />
 				<Permitted>
-					<Button type="button" label="Edit feedback" variant="edit" />
+					<Link href={`/entry/${params.id}/edit`} replace={true}>
+						<Button type="button" label="Edit feedback" variant="edit" />
+					</Link>
 				</Permitted>
 			</div>
 			<FeedbackEntry entry={entry} extend={true} />

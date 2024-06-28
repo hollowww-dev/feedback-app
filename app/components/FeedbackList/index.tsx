@@ -13,7 +13,7 @@ import Image from "next/image";
 import IconSuggestions from "../../../assets/suggestions/icon-suggestions.svg";
 import IconPlus from "../../../assets/shared/icon-plus.svg";
 
-import FeedbackEntry from "../FeedbackEntry";
+import FeedbackEntry, { FeedbackEntrySkeleton } from "../FeedbackEntry";
 import Select from "react-select";
 import Button from "../Button";
 import NoFeedback from "./NoFeedback";
@@ -29,6 +29,25 @@ const sortByOptions: SortBy[] = [
 	{ label: "Most Comments", value: ["commentsCount", "desc"] },
 	{ label: "Least Comments", value: ["commentsCount", "asc"] },
 ];
+
+export const FeedbackListSkeleton = () => {
+	return (
+		<div className={styles.container}>
+			<div className={styles.header}>
+				<div className={styles.left}>
+					<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
+				</div>
+				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
+			</div>
+			<div className={styles.entries}>
+				<FeedbackEntrySkeleton extend={true} />
+				<FeedbackEntrySkeleton extend={true} />
+				<FeedbackEntrySkeleton extend={true} />
+				<FeedbackEntrySkeleton extend={true} />
+			</div>
+		</div>
+	);
+};
 
 export const FeedbackList = () => {
 	const [sortBy, setSortBy] = useState<SortBy["value"]>(["upvotes", "desc"]);

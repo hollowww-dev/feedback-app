@@ -174,6 +174,54 @@ export async function addReply(id: string, content: string, replyingTo: string) 
 	}
 }
 
+export async function editEntry(id: string, content: NewEntry) {
+	try {
+		await dbConnect();
+		const user = await authorize();
+		if (!user.data) {
+			throw new Error("You need to log in to comment.");
+		}
+		const entry = await feedbackModel.findOne({ _id: id }).populate("user");
+		if (!entry) {
+			throw new Error("Entry not found.");
+		} else if (user.data.id !== entry.user.id || user.data.superUser !== true) {
+			throw new Error("You don't have permission to edit this entry.");
+		}
+		await entry.updateOne({ ...content });
+		return { success: true, data: null };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
+}
+
+export async function removeEntry(id: string) {
+	try {
+		await dbConnect();
+		const user = await authorize();
+		if (!user.data) {
+			throw new Error("You need to log in to comment.");
+		}
+		const entry = await feedbackModel.findOne({ _id: id }).populate("user");
+		if (!entry) {
+			throw new Error("Entry not found.");
+		} else if (user.data.id !== entry.user.id || user.data.superUser !== true) {
+			throw new Error("You don't have permission to edit this entry.");
+		}
+		await feedbackModel.findByIdAndDelete(entry);
+		return { success: true, data: null };
+	} catch (e) {
+		if (e instanceof Error) {
+			return { success: false, message: e.message, data: null };
+		} else {
+			return { success: false, message: "Something went wrong.", data: null };
+		}
+	}
+}
+
 export async function createUser(request: unknown) {
 	try {
 		await dbConnect();

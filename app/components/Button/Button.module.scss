@@ -28,6 +28,7 @@
 		}
 	}
 	&.delete {
+		margin-right: auto;
 		color: theme.$white;
 		background-color: theme.$delete;
 		&:hover {

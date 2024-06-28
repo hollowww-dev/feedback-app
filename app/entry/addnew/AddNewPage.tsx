@@ -4,7 +4,7 @@ import styles from "@/app/components/Form.module.scss";
 
 import { Category, Entry, EntryDetailed } from "../../types";
 
-import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 import { findCategoryKey } from "@/app/utils";
 

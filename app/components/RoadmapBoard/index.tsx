@@ -1,10 +1,37 @@
+"use client";
+
 import { getStatsHandler } from "@/app/services/feedback";
 import styles from "./RoadmapBoard.module.scss";
 
 import Link from "next/link";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-async function RoadmapBoard() {
-	const count = await getStatsHandler();
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+export function RoadmapBoardSkeleton() {
+	return (
+		<div className={styles.roadmapBoard}>
+			<div className={styles.top}>
+				<h3>Roadmap</h3>
+			</div>
+			<div className={styles.count}>
+				<div>
+					<Skeleton />
+				</div>
+				<div>
+					<Skeleton />
+				</div>
+				<div>
+					<Skeleton />
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function RoadmapBoard() {
+	const { data: count } = useSuspenseQuery({ queryKey: ["stats"], queryFn: getStatsHandler });
 
 	return (
 		<div className={styles.roadmapBoard}>

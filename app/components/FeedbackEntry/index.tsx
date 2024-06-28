@@ -19,6 +19,24 @@ import { useNotify } from "@/app/contexts/notificationHooks";
 
 import useUser from "@/app/hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
+	return (
+		<div className={clsx(`${styles.feedbackEntry}`, extend && `${styles.extend}`)}>
+			<div className={styles.content}>
+				<h3>
+					<Skeleton />
+				</h3>
+				<Skeleton />
+				<Skeleton />
+			</div>
+		</div>
+	);
+};
+
 const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean; link?: boolean }) => {
 	const router = useRouter();
 	const user = useUser();
@@ -44,7 +62,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 
 			if (user.upvoted.includes(entry.id)) {
 				oldSuggestions &&
-					queryClient.setQueryData(["entries", { status: "suggestion" }], (old: Entry[]) => {
+					queryClient.setQueryData(["entries", { status: entry.status }], (old: Entry[]) => {
 						return old.map(e => (e.id === entry.id ? { ...e, upvotes: --e.upvotes } : e));
 					});
 				oldEntry &&
@@ -60,7 +78,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 					});
 			} else {
 				oldSuggestions &&
-					queryClient.setQueryData(["entries", { status: "suggestion" }], (old: Entry[]) => {
+					queryClient.setQueryData(["entries", { status: entry.status }], (old: Entry[]) => {
 						return old.map(e => (e.id === entry.id ? { ...e, upvotes: ++e.upvotes } : e));
 					});
 				oldEntry &&
@@ -84,13 +102,13 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 			} else {
 				notify("Something went wrong.");
 			}
-			context?.oldSuggestions && queryClient.setQueryData(["entries", { status: "suggestion" }], context.oldSuggestions);
+			context?.oldSuggestions && queryClient.setQueryData(["entries", { status: entry.status }], context.oldSuggestions);
 			context?.oldEntry && queryClient.setQueryData(["entries", context.oldEntry.id], context.oldEntry);
 			context?.oldUser && queryClient.setQueryData(["user"], context.oldUser);
 		},
 		onSettled: async () => {
 			await Promise.all([
-				queryClient.invalidateQueries({ queryKey: ["entries", { status: "suggestion" }] }, { cancelRefetch: false }),
+				queryClient.invalidateQueries({ queryKey: ["entries", { status: entry.status }] }, { cancelRefetch: false }),
 				queryClient.invalidateQueries({ queryKey: ["entries", entry.id] }, { cancelRefetch: false }),
 				queryClient.invalidateQueries({ queryKey: ["user"] }, { cancelRefetch: false }),
 			]);
@@ -112,7 +130,7 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 				className={clsx(`${styles.votes}`, user?.upvoted.includes(entry.id) && `${styles.active}`)}
 				onClick={e => {
 					e.stopPropagation();
-					upvoteMutation.mutateAsync(entry.id);
+					upvoteMutation.mutate(entry.id);
 				}}>
 				<IconArrowUp />
 				{entry.upvotes}

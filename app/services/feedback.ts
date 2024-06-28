@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { addComment, addReply, createEntry, getSingle, getStats, getSuggestions, upvote } from "@/actions";
+import { addComment, addReply, createEntry, editEntry, getSingle, getStats, getSuggestions, removeEntry, upvote } from "@/actions";
 import { NewEntry } from "../types";
 
 export const getSuggestionsHandler = async () => {
@@ -10,14 +10,14 @@ export const getSuggestionsHandler = async () => {
 		throw new Error(response.message);
 	}
 };
-export const getStatsHandler = cache(async () => {
+export const getStatsHandler = async () => {
 	const response = await getStats();
 	if (response.success) {
 		return response.data;
 	} else {
 		throw new Error(response.message);
 	}
-});
+};
 
 export const getSingleHandler = async (id: string) => {
 	const response = await getSingle(id);
@@ -58,6 +58,20 @@ export const addReplyHandler = async (id: string, content: string, replyingTo: s
 	if (response.success && response.data !== null) {
 		return response.data;
 	} else {
+		throw new Error(response.message);
+	}
+};
+
+export const editEntryHandler = async (id: string, content: NewEntry) => {
+	const response = await editEntry(id, content);
+	if (!response.success) {
+		throw new Error(response.message);
+	}
+};
+
+export const removeEntryHandler = async (id: string) => {
+	const response = await removeEntry(id);
+	if (!response.success) {
 		throw new Error(response.message);
 	}
 };

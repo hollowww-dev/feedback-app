@@ -6,7 +6,7 @@ import getQueryClient from "@/app/lib/getQueryClient";
 export default async function FeedbackListLoader() {
 	const queryClient = getQueryClient();
 
-	await queryClient.fetchQuery({
+	await queryClient.ensureQueryData({
 		queryKey: ["entries", { status: "suggestion" }],
 		queryFn: getSuggestionsHandler,
 	});

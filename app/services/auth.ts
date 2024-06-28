@@ -1,4 +1,4 @@
-import { authorize, login, createUser, logout } from "@/actions";
+import { authorize, login, createUser } from "@/actions";
 import { cache } from "react";
 
 export const authorizeHandler = cache(async () => {
