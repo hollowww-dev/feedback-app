@@ -39,6 +39,13 @@
 				color: white;
 			}
 		}
+		&.skeleton {
+			padding: 0;
+			background: none;
+			div {
+				padding: 0.4em 1em;
+			}
+		}
 	}
 	.comments {
 		display: flex;
@@ -80,4 +87,3 @@
 		}
 	}
 }
-

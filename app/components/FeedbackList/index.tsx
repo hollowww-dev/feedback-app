@@ -22,6 +22,7 @@ import Link from "next/link";
 import ClientOnly from "../ClientOnly";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getSuggestionsHandler } from "@/app/services/feedback";
+import Skeleton from "react-loading-skeleton";
 
 const sortByOptions: SortBy[] = [
 	{ label: "Most Upvotes", value: ["upvotes", "desc"] },
@@ -37,12 +38,9 @@ export const FeedbackListSkeleton = () => {
 				<div className={styles.left}>
 					<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
 				</div>
-				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
+				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} disabled={true} />
 			</div>
 			<div className={styles.entries}>
-				<FeedbackEntrySkeleton extend={true} />
-				<FeedbackEntrySkeleton extend={true} />
-				<FeedbackEntrySkeleton extend={true} />
 				<FeedbackEntrySkeleton extend={true} />
 			</div>
 		</div>
