@@ -4,8 +4,6 @@ import { Suspense } from "react";
 import FeedbackListLoader from "./components/FeedbackList/FeedbackListLoader";
 import RoadmapBoardLoader from "./components/RoadmapBoard/RoadmapBoardLoader";
 import { RoadmapBoardSkeleton } from "./components/RoadmapBoard";
-import { FeedbackEntrySkeleton } from "./components/FeedbackEntry";
-import Loading from "./loading";
 import { FeedbackListSkeleton } from "./components/FeedbackList";
 
 export default async function Page() {

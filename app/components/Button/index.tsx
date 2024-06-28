@@ -33,6 +33,14 @@ const Button = ({
 	);
 };
 
+export const CategoryLabelSkeleton = () => {
+	return (
+		<button className={styles.category} disabled={true}>
+			{"  "}
+		</button>
+	);
+};
+
 export const CategoryLabel = ({ category, active, onClick }: { category: Category | "all"; active?: boolean; onClick?: () => void }) => {
 	return (
 		<button className={clsx(`${styles.category}`, active && `${styles.active}`)} onClick={onClick} disabled={onClick ? false : true}>

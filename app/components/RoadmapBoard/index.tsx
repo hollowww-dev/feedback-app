@@ -17,13 +17,13 @@ export function RoadmapBoardSkeleton() {
 			</div>
 			<div className={styles.count}>
 				<div>
-					<Skeleton />
+					<Skeleton style={{ flex: 1 }} />
 				</div>
 				<div>
-					<Skeleton />
+					<Skeleton style={{ flex: 1 }} />
 				</div>
 				<div>
-					<Skeleton />
+					<Skeleton style={{ flex: 1 }} />
 				</div>
 			</div>
 		</div>
