@@ -32,10 +32,12 @@ export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 				<CategoryLabelSkeleton />
 			</div>
 			<button className={styles.votes}>
-				<IconArrowUp />{" "}
+				<IconArrowUp />
+				<p> </p>
 			</button>
 			<div className={styles.comments}>
-				<Image src={IconComments} alt="Comments icon" />{" "}
+				<Image src={IconComments} alt="Comments icon" />
+				<p> </p>
 			</div>
 		</div>
 	);

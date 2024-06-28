@@ -36,7 +36,7 @@ const Button = ({
 export const CategoryLabelSkeleton = () => {
 	return (
 		<button className={styles.category} disabled={true}>
-			{"  "}
+			<p> </p>
 		</button>
 	);
 };
