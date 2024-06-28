@@ -5,6 +5,7 @@ import FeedbackListLoader from "./components/FeedbackList/FeedbackListLoader";
 import RoadmapBoardLoader from "./components/RoadmapBoard/RoadmapBoardLoader";
 import { RoadmapBoardSkeleton } from "./components/RoadmapBoard";
 import { FeedbackListSkeleton } from "./components/FeedbackList";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default async function Page() {
 	return (

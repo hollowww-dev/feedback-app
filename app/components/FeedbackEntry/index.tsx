@@ -20,9 +20,6 @@ import { useNotify } from "@/app/contexts/notificationHooks";
 import useUser from "@/app/hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-
 export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 	return (
 		<div className={clsx(`${styles.feedbackEntry}`, extend && `${styles.extend}`)}>
@@ -32,12 +29,10 @@ export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 				<CategoryLabelSkeleton />
 			</div>
 			<button className={styles.votes}>
-				<IconArrowUp />
-				<p> </p>
+				<IconArrowUp />?
 			</button>
 			<div className={styles.comments}>
 				<Image src={IconComments} alt="Comments icon" />
-				<p>?</p>
 			</div>
 		</div>
 	);

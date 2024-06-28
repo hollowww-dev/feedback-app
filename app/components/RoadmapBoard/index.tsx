@@ -7,24 +7,21 @@ import Link from "next/link";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+
 
 export function RoadmapBoardSkeleton() {
 	return (
 		<div className={styles.roadmapBoard}>
 			<div className={styles.top}>
 				<h3>Roadmap</h3>
+				<Link href="/roadmap" prefetch={false}>
+					View
+				</Link>
 			</div>
 			<div className={styles.count}>
-				<div>
-					<Skeleton style={{ flex: 1 }} />
-				</div>
-				<div>
-					<Skeleton style={{ flex: 1 }} />
-				</div>
-				<div>
-					<Skeleton style={{ flex: 1 }} />
-				</div>
+				<Skeleton />
+				<Skeleton />
+				<Skeleton />
 			</div>
 		</div>
 	);
