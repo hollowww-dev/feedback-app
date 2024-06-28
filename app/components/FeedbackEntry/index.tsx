@@ -13,7 +13,7 @@ import styles from "./FeedbackEntry.module.scss";
 import IconArrowUp from "../../../assets/shared/icon-arrow-up";
 import IconComments from "../../../assets/shared/icon-comments.svg";
 
-import { CategoryLabel } from "../Button";
+import { CategoryLabel, CategoryLabelSkeleton } from "../Button";
 import { upvoteHandler } from "@/app/services/feedback";
 import { useNotify } from "@/app/contexts/notificationHooks";
 
@@ -26,13 +26,16 @@ import "react-loading-skeleton/dist/skeleton.css";
 export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 	return (
 		<div className={clsx(`${styles.feedbackEntry}`, extend && `${styles.extend}`)}>
-			<Skeleton circle={true} />
 			<div className={styles.content}>
-				<h3>
-					<Skeleton style={{ flex: 1, height: "1em" }} />
-				</h3>
-				<Skeleton style={{ flex: 1, height: "1em" }} />
-				<Skeleton style={{ flex: 1 }} height={25} />
+				<h3>a</h3>
+				<p>a</p>
+				<CategoryLabelSkeleton />
+			</div>
+			<button className={styles.votes}>
+				<IconArrowUp />{" "}
+			</button>
+			<div className={styles.comments}>
+				<Image src={IconComments} alt="Comments icon" />{" "}
 			</div>
 		</div>
 	);
