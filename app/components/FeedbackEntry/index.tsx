@@ -31,7 +31,7 @@ export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 				<p style={{ width: "60%" }}>
 					<Skeleton />
 				</p>
-				<Skeleton width={50} height={29} />
+				<Skeleton width={50} height={28} />
 			</div>
 			<div className={clsx(`${styles.votes}`, `${styles.skeleton}`)} />
 		</div>
