@@ -13,7 +13,7 @@ import styles from "./FeedbackEntry.module.scss";
 import IconArrowUp from "../../../assets/shared/icon-arrow-up";
 import IconComments from "../../../assets/shared/icon-comments.svg";
 
-import { CategoryLabel, CategoryLabelSkeleton } from "../Button";
+import { CategoryLabel } from "../Button";
 import { upvoteHandler } from "@/app/services/feedback";
 import { useNotify } from "@/app/contexts/notificationHooks";
 
@@ -31,7 +31,7 @@ export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 				<p style={{ width: "60%" }}>
 					<Skeleton />
 				</p>
-				<Skeleton width={50} height={"2.2em"} />
+				<Skeleton width={50} height={"1.8em"} />
 			</div>
 			<div className={clsx(`${styles.votes}`, `${styles.skeleton}`)} />
 		</div>
