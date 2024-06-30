@@ -4,14 +4,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { signUpSchema } from "../../app/lib/authSchema";
+import { signUpSchema } from "@/app/lib/authSchema";
 
 import styles from "@/app/components/Form.module.scss";
 
-import Button from "../../app/components/Button";
-import { useNotify } from "../../app/contexts/notificationHooks";
+import Button from "@/app/components/Button";
+import { useNotify } from "@/app/contexts/notificationHooks";
 import { useRouter } from "next/navigation";
-import { createUserHandler } from "../services/auth";
+import { createUserHandler } from "@/app/services/auth";
 
 type Inputs = {
 	username: string;

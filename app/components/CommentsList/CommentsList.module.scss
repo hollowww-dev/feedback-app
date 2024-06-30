@@ -34,6 +34,10 @@
 		border-radius: 50%;
 		background-color: theme.$bodyBackground;
 		font-weight: 700;
+		overflow: hidden;
+		&.skeleton {
+			background: none;
+		}
 	}
 	.content {
 		display: flex;

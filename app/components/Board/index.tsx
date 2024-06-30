@@ -46,9 +46,9 @@ const Board = ({ children }: { children?: JSX.Element | ReactNode }) => {
 							</>
 						) : (
 							<>
-								<Link href="/signin">Sign in</Link>
+								<Link href="/auth/signin">Sign in</Link>
 								{" | "}
-								<Link href="/signup">Sign up</Link>
+								<Link href="/auth/signup">Sign up</Link>
 							</>
 						)}
 					</p>
