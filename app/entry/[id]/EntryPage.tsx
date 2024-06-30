@@ -4,13 +4,21 @@ import styles from "./FeedbackEntryPage.module.scss";
 import AddComment from "@/app/components/AddComment";
 import Button from "@/app/components/Button";
 import CommentsList from "@/app/components/CommentsList";
-import FeedbackEntry from "@/app/components/FeedbackEntry";
+import FeedbackEntry, { FeedbackEntrySkeleton } from "@/app/components/FeedbackEntry";
 import GoBack from "@/app/components/GoBack";
 import Permitted from "@/app/components/Permitted";
 import { getSingleHandler } from "@/app/services/feedback";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
+
+export function EntryPageSkeleton() {
+	return (
+		<div className={styles.entryContainer}>
+			<FeedbackEntrySkeleton extend={true} />
+		</div>
+	);
+}
 
 function EntryPage() {
 	const params = useParams<{ id: string }>();

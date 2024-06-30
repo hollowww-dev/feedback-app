@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Loading from "@/app/loading";
 import EditPage from "./EditPage";
 import { getSingleHandler } from "@/app/services/feedback";
-import { redirect } from "next/navigation";
 import getQueryClient from "@/app/lib/getQueryClient";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
