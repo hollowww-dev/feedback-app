@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Loading from "@/app/loading";
 import EditPage from "./EditPage";
 import { getSingleHandler } from "@/app/services/feedback";
 import getQueryClient from "@/app/lib/getQueryClient";
@@ -21,9 +20,5 @@ async function EditPageLoader({ params }: { params: { id: string } }) {
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
-	return (
-		<Suspense key="signup" fallback={<Loading />}>
-			<EditPageLoader params={params} />
-		</Suspense>
-	);
+	return <EditPageLoader params={params} />;
 }
