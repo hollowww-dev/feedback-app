@@ -69,6 +69,11 @@ const EditPage = () => {
 	const notify = useNotify();
 	const queryClient = getQueryClient();
 
+	if (!user || !user.superUser !== true || user.id !== entry.id) {
+		notify("You are not authorized to edit this entry.");
+		router.replace(`/entry/${entry.id}`);
+	}
+
 	const { mutate: editEntry, isPending: isPendingEdit } = useMutation({
 		mutationKey: ["editEntry"],
 		mutationFn: (content: NewEntry) => editEntryHandler(params.id, content),
@@ -80,9 +85,19 @@ const EditPage = () => {
 			}
 		},
 		onSuccess: (_data, content) => {
+			if (content.status && content.status !== entry.status) {
+				queryClient.setQueryData(
+					["entries", { status: entry.status }],
+					(old: Entry[]) => old && old.filter(oldEntry => oldEntry.id !== entry.id)
+				);
+			}
 			queryClient.setQueryData(["entries", params.id], (old: EntryDetailed) => {
 				return { ...old, ...content };
 			});
+			queryClient.setQueryData(
+				["entries", { status: content.status || entry.status }],
+				(old: Entry[]) => old && old.map(entry => (entry.id === params.id ? { ...entry, ...content } : entry))
+			);
 			queryClient.setQueryData(
 				["entries", { status: content.status || entry.status }],
 				(old: Entry[]) => old && old.map(entry => (entry.id === params.id ? { ...entry, ...content } : entry))

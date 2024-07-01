@@ -22,6 +22,8 @@ import Link from "next/link";
 import ClientOnly from "../ClientOnly";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getEntriesHandler } from "@/app/services/feedback";
+import useUser from "@/app/hooks/useUser";
+import { useNotify } from "@/app/contexts/notificationHooks";
 
 const sortByOptions: SortBy[] = [
 	{ label: "Most Upvotes", value: ["upvotes", "desc"] },
@@ -37,7 +39,7 @@ export const FeedbackListSkeleton = () => {
 				<div className={styles.left}>
 					<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
 				</div>
-				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
+				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} disabled={true} />
 			</div>
 			<div className={styles.entries}>
 				<FeedbackEntrySkeleton extend={true} />
@@ -54,6 +56,9 @@ export const FeedbackList = () => {
 		queryKey: ["entries", { status: "suggestion" }],
 		queryFn: () => getEntriesHandler("suggestion"),
 	});
+
+	const user = useUser();
+	const notify = useNotify();
 
 	const suggestions = filter === "all" ? rawSuggestions : rawSuggestions.filter(entry => entry.category === filter);
 
@@ -86,8 +91,11 @@ export const FeedbackList = () => {
 						</div>
 					</ClientOnly>
 				</div>
-				<Link href="/entry/addnew" prefetch={true}>
-					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
+				<Link
+					onClick={() => !user && notify("You need to be logged in to add feedback.")}
+					href={(user && "/entry/addnew") || "#"}
+					prefetch={true}>
+					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} disabled={!user} />
 				</Link>
 			</div>
 			<div className={styles.entries}>

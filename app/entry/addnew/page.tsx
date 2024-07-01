@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useNotify } from "@/app/contexts/notificationHooks";
 import { createEntryHandler } from "@/app/services/feedback";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useUser from "@/app/hooks/useUser";
 
 type Inputs = {
 	title: string;
@@ -44,6 +45,12 @@ const Page = () => {
 	const notify = useNotify();
 	const router = useRouter();
 	const queryClient = useQueryClient();
+	const user = useUser();
+
+	if (!user) {
+		notify("You need to be logged in to add feedback.");
+		router.replace("/");
+	}
 
 	const { mutate: addNew, isPending } = useMutation({
 		mutationKey: ["addNew"],

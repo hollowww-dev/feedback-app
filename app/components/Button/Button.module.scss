@@ -9,9 +9,9 @@
 	border-radius: 10px;
 	font-size: 1.3rem;
 	font-weight: 600;
-	&:disabled {
+	&[aria-disabled="true"] {
 		opacity: 0.5;
-		cursor: wait;
+		cursor: default;
 	}
 	&.primary {
 		background-color: theme.$primary;

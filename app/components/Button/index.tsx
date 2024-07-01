@@ -26,7 +26,7 @@ const Button = ({
 	type: "button" | "submit" | "reset";
 }) => {
 	return (
-		<button type={type} className={`${styles.button} ${styles[variant]}`} onClick={onClick} disabled={disabled}>
+		<button type={type} className={`${styles.button} ${styles[variant]}`} onClick={onClick} aria-disabled={disabled}>
 			{icon && <Image src={icon} alt={`${label} icon`} />}
 			{label}
 		</button>

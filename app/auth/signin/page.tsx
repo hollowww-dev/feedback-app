@@ -11,6 +11,7 @@ import styles from "@/app/components/Form.module.scss";
 
 import Button from "@/app/components/Button";
 import { authorizeHandler, loginHandler } from "@/app/services/auth";
+import useUser from "@/app/hooks/useUser";
 
 type Inputs = {
 	username: string;
@@ -27,6 +28,12 @@ const Page = () => {
 	const notify = useNotify();
 
 	const router = useRouter();
+
+	const user = useUser();
+
+	if (user) {
+		router.replace("/");
+	}
 
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {

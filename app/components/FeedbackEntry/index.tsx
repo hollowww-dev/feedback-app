@@ -107,13 +107,6 @@ const FeedbackEntry = ({ entry, extend, link, roadmap }: { entry: Entry; extend?
 			context?.oldEntry && queryClient.setQueryData(["entries", context.oldEntry.id], context.oldEntry);
 			context?.oldUser && queryClient.setQueryData(["user"], context.oldUser);
 		},
-		onSettled: async () => {
-			await Promise.all([
-				queryClient.invalidateQueries({ queryKey: ["entries", { status: entry.status }] }, { cancelRefetch: false }),
-				queryClient.invalidateQueries({ queryKey: ["entries", entry.id] }, { cancelRefetch: false }),
-				queryClient.invalidateQueries({ queryKey: ["user"] }, { cancelRefetch: false }),
-			]);
-		},
 	});
 
 	return (

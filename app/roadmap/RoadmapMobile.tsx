@@ -1,10 +1,28 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import styles from "./RoadmapPage.module.scss";
-import ClientOnly from "../components/ClientOnly";
 import clsx from "clsx";
 import RoadmapColumn, { RoadmapColumnSkeleton } from "./RoadmapColumn";
+
+export const RoadmapMobileSkeleton = () => {
+	return (
+		<div className={styles.roadmapMobile}>
+			<div className={styles.tabs}>
+				<button className={styles.tab} disabled={true}>
+					Planned
+				</button>
+				<button className={styles.tab} disabled={true}>
+					In-Progress
+				</button>
+				<button className={styles.tab} disabled={true}>
+					Live
+				</button>
+			</div>
+			<RoadmapColumnSkeleton />
+		</div>
+	);
+};
 
 const RoadmapMobile = () => {
 	const [active, setActive] = useState<"planned" | "inprogress" | "live">("planned");
@@ -27,9 +45,7 @@ const RoadmapMobile = () => {
 					Live
 				</button>
 			</div>
-			<Suspense fallback={<RoadmapColumnSkeleton />}>
-				<RoadmapColumn status={active} />
-			</Suspense>
+			<RoadmapColumn status={active} />
 		</div>
 	);
 };

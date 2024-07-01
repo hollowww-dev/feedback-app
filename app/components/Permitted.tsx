@@ -1,11 +1,7 @@
-"use client";
-
 import { ReactNode } from "react";
-import useUser from "../hooks/useUser";
 
-const Permitted = ({ children }: { children: ReactNode }) => {
-	const user = useUser();
-	if (!user) {
+const Permitted = ({ children, condition }: { children: ReactNode; condition: boolean }) => {
+	if (!condition) {
 		return null;
 	} else {
 		return children;

@@ -12,6 +12,7 @@ import Button from "@/app/components/Button";
 import { useNotify } from "@/app/contexts/notificationHooks";
 import { useRouter } from "next/navigation";
 import { createUserHandler } from "@/app/services/auth";
+import useUser from "@/app/hooks/useUser";
 
 type Inputs = {
 	username: string;
@@ -30,6 +31,12 @@ const Page = () => {
 	const notify = useNotify();
 
 	const router = useRouter();
+
+	const user = useUser();
+
+	if (user) {
+		router.replace("/");
+	}
 
 	const submit: SubmitHandler<Inputs> = async (data: Inputs) => {
 		try {

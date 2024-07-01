@@ -7,6 +7,7 @@ import CommentsList from "@/app/components/CommentsList";
 import FeedbackEntry from "@/app/components/FeedbackEntry";
 import GoBack from "@/app/components/GoBack";
 import Permitted from "@/app/components/Permitted";
+import useUser from "@/app/hooks/useUser";
 import { getSingleHandler } from "@/app/services/feedback";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -20,6 +21,8 @@ function EntryPage() {
 		queryFn: () => getSingleHandler(params.id),
 	});
 
+	const user = useUser();
+
 	if (isError || !entry) {
 		redirect("/");
 	}
@@ -28,7 +31,7 @@ function EntryPage() {
 		<div className={styles.entryContainer}>
 			<div className={styles.top}>
 				<GoBack />
-				<Permitted>
+				<Permitted condition={user?.superUser === true || user?.id === entry.user.id}>
 					<Link href={`/entry/${params.id}/edit`} replace={true}>
 						<Button type="button" label="Edit feedback" variant="edit" />
 					</Link>
