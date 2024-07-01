@@ -7,7 +7,7 @@ import { useNotify } from "@/app/contexts/notificationHooks";
 import useUser from "@/app/hooks/useUser";
 import getQueryClient from "@/app/lib/getQueryClient";
 import { editEntryHandler, getSingleHandler, removeEntryHandler } from "@/app/services/feedback";
-import { Category, Entry, EntryDetailed, NewEntry, Status } from "@/app/types";
+import { Category, Entry, EntryDetailed, NewEntry, Status, User } from "@/app/types";
 import { findCategoryKey, findStatusKey } from "@/app/utils";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -69,7 +69,7 @@ const EditPage = () => {
 	const notify = useNotify();
 	const queryClient = getQueryClient();
 
-	if (!user || user.superUser !== true || user.id !== entry.id) {
+	if (!user || (user?.superUser !== true && user?.id !== entry.id)) {
 		notify("You are not authorized to edit this entry.");
 		router.replace(`/entry/${entry.id}`);
 	}
