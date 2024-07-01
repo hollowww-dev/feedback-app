@@ -37,7 +37,7 @@ export const FeedbackListSkeleton = () => {
 				<div className={styles.left}>
 					<Image src={IconSuggestions} alt="Suggestions icon" priority={true} />
 				</div>
-				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} disabled={true} />
+				<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
 			</div>
 			<div className={styles.entries}>
 				<FeedbackEntrySkeleton extend={true} />

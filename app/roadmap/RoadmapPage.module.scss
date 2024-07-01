@@ -39,8 +39,8 @@
 }
 
 .roadmapColumn {
-	padding: 0 2em;
 	display: flex;
+	padding: 0 2em;
 	flex-direction: column;
 	flex: 1;
 	gap: 1em;
@@ -52,5 +52,47 @@
 	}
 	@media (min-width: breakpoints.$tablet) {
 		padding: 0;
+	}
+}
+
+.roadmapMobile {
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+	.tabs {
+		display: flex;
+		.tab {
+			padding: 1.5em 0;
+			display: flex;
+			flex: 1;
+			justify-content: center;
+			opacity: 0.4;
+			font-weight: 800;
+			color: theme.$paragraph;
+			border-bottom: 1px solid theme.$paragraph;
+			cursor: pointer;
+			&.active {
+				opacity: 1;
+				border-bottom-width: 5px;
+				&.planned {
+					border-bottom-color: theme.$planned;
+				}
+				&.inprogress {
+					border-bottom-color: theme.$primary;
+				}
+				&.live {
+					border-bottom-color: theme.$live;
+				}
+			}
+		}
+	}
+	@media (min-width: breakpoints.$mobile) {
+		display: none;
+	}
+}
+
+.roadmapDesktop {
+	@media (max-width: breakpoints.$mobile) {
+		display: none;
 	}
 }
