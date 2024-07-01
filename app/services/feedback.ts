@@ -1,9 +1,8 @@
-import { cache } from "react";
-import { addComment, addReply, createEntry, editEntry, getSingle, getStats, getSuggestions, removeEntry, upvote } from "@/actions";
-import { NewEntry } from "../types";
+import { addComment, addReply, createEntry, editEntry, getSingle, getStats, getEntries, removeEntry, upvote } from "@/actions";
+import { NewEntry, Status } from "../types";
 
-export const getSuggestionsHandler = async () => {
-	const response = await getSuggestions();
+export const getEntriesHandler = async (status: "suggestion" | "planned" | "inprogress" | "live") => {
+	const response = await getEntries(status);
 	if (response.success) {
 		return response.data;
 	} else {

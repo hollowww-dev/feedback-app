@@ -11,17 +11,17 @@ import feedbackModel from "./app/models/feedback";
 import userModel from "./app/models/user";
 import { signInSchema } from "./app/lib/authSchema";
 import { cookies } from "next/headers";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import commentModel from "./app/models/comment";
 import replyModel from "./app/models/reply";
-import { Comment, NewEntry } from "./app/types";
+import { NewEntry } from "./app/types";
 
-export async function getSuggestions() {
+export async function getEntries(status: "suggestion" | "planned" | "inprogress" | "live") {
 	try {
 		await dbConnect();
-		const suggestions = await feedbackModel.find({ status: "suggestion" }).populate([{ path: "comments" }, { path: "user" }]);
-		const parsedSuggestions = parseEntries(suggestions);
-		return { success: true, data: parsedSuggestions };
+		const entries = await feedbackModel.find({ status: status }).populate([{ path: "comments" }, { path: "user" }]);
+		const parsedEntries = parseEntries(entries);
+		return { success: true, data: parsedEntries };
 	} catch (e) {
 		if (e instanceof Error) {
 			return { success: false, message: e.message, data: [] };

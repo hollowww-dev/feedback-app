@@ -1,6 +1,6 @@
 "use client";
 
-import { SortBy } from "../../types";
+import { Entry, SortBy } from "../../types";
 
 import { useState } from "react";
 
@@ -21,8 +21,7 @@ import { useFilterValue } from "@/app/contexts/filterHooks";
 import Link from "next/link";
 import ClientOnly from "../ClientOnly";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getSuggestionsHandler } from "@/app/services/feedback";
-import Skeleton from "react-loading-skeleton";
+import { getEntriesHandler } from "@/app/services/feedback";
 
 const sortByOptions: SortBy[] = [
 	{ label: "Most Upvotes", value: ["upvotes", "desc"] },
@@ -51,7 +50,10 @@ export const FeedbackList = () => {
 	const [sortBy, setSortBy] = useState<SortBy["value"]>(["upvotes", "desc"]);
 	const filter = useFilterValue();
 
-	const { data: rawSuggestions } = useSuspenseQuery({ queryKey: ["entries", { status: "suggestion" }], queryFn: getSuggestionsHandler });
+	const { data: rawSuggestions } = useSuspenseQuery<Entry[]>({
+		queryKey: ["entries", { status: "suggestion" }],
+		queryFn: () => getEntriesHandler("suggestion"),
+	});
 
 	const suggestions = filter === "all" ? rawSuggestions : rawSuggestions.filter(entry => entry.category === filter);
 
@@ -84,7 +86,7 @@ export const FeedbackList = () => {
 						</div>
 					</ClientOnly>
 				</div>
-				<Link href="/entry/addnew">
+				<Link href="/entry/addnew" prefetch={true}>
 					<Button type="button" label="Add feedback" variant="primary" icon={IconPlus} />
 				</Link>
 			</div>

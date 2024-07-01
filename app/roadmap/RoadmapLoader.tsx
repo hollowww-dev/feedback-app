@@ -1,19 +1,19 @@
 import { getEntriesHandler } from "@/app/services/feedback";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import FeedbackList from ".";
 import getQueryClient from "@/app/lib/getQueryClient";
+import RoadmapColumn from "./RoadmapColumn";
 
-export default async function FeedbackListLoader() {
+export default async function RoadmapLoader({ status }: { status: "planned" | "inprogress" | "live" }) {
 	const queryClient = getQueryClient();
 
 	await queryClient.ensureQueryData({
-		queryKey: ["entries", { status: "suggestion" }],
-		queryFn: () => getEntriesHandler("suggestion"),
+		queryKey: ["entries", { status }],
+		queryFn: () => getEntriesHandler(status),
 	});
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>
-			<FeedbackList />
+			<RoadmapColumn status={status} />
 		</HydrationBoundary>
 	);
 }

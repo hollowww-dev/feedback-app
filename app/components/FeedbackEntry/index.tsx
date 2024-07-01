@@ -21,9 +21,9 @@ import useUser from "@/app/hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 
-export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
+export const FeedbackEntrySkeleton = ({ extend, roadmap }: { extend: boolean; roadmap?: boolean }) => {
 	return (
-		<div className={clsx(`${styles.feedbackEntry}`, extend && `${styles.extend}`)}>
+		<div className={clsx(`${styles.feedbackEntry}`, extend && `${styles.extend}`, roadmap && `${styles.roadmap}`)}>
 			<div className={styles.content}>
 				<h3 style={{ width: "80%" }}>
 					<Skeleton />
@@ -38,7 +38,7 @@ export const FeedbackEntrySkeleton = ({ extend }: { extend: boolean }) => {
 	);
 };
 
-const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean; link?: boolean }) => {
+const FeedbackEntry = ({ entry, extend, link, roadmap }: { entry: Entry; extend?: boolean; link?: boolean; roadmap?: boolean }) => {
 	const router = useRouter();
 	const user = useUser();
 	const queryClient = useQueryClient();
@@ -118,7 +118,13 @@ const FeedbackEntry = ({ entry, extend, link }: { entry: Entry; extend?: boolean
 
 	return (
 		<div
-			className={clsx(`${styles.feedbackEntry}`, extend && `${styles.extend}`, link && `${styles.link}`)}
+			className={clsx(
+				`${styles.feedbackEntry}`,
+				extend && `${styles.extend}`,
+				link && `${styles.link}`,
+				roadmap === true && `${styles.roadmap}`,
+				roadmap === true && entry.status !== "suggestion" && styles[entry.status]
+			)}
 			onClick={() => {
 				link && router.push(`/entry/${entry.id}`);
 			}}>

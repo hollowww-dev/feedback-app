@@ -60,7 +60,7 @@
 		color: theme.$active;
 	}
 	&.extend {
-		@media (min-width: breakpoints.$tablet) {
+		@media (min-width: breakpoints.$desktop) {
 			flex-wrap: nowrap;
 			gap: 2em;
 			.content {
@@ -84,6 +84,44 @@
 	&.link {
 		&:hover {
 			cursor: pointer;
+		}
+	}
+	.status {
+		display: flex;
+		align-items: center;
+		font-size: 1.6rem;
+		&::before {
+			margin-right: 1em;
+			width: 0.35em;
+			height: 0.35em;
+			border-radius: 50%;
+			content: "";
+			@media (min-width: breakpoints.$desktop) {
+				width: 0.5em;
+				height: 0.5em;
+			}
+		}
+	}
+	&.roadmap {
+		border-radius: 5px;
+		border-top: 5px solid;
+	}
+	&.planned {
+		border-top-color: theme.$planned;
+		.status::before {
+			background-color: theme.$planned;
+		}
+	}
+	&.inprogress {
+		border-top-color: theme.$primary;
+		.status::before {
+			background-color: theme.$primary;
+		}
+	}
+	&.live {
+		border-top-color: theme.$live;
+		.status::before {
+			background-color: theme.$live;
 		}
 	}
 }
