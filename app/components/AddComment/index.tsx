@@ -1,15 +1,19 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import styles from "./AddComment.module.scss";
-import Button from "../Button";
-import NotLogged from "../NotLogged";
 import { addCommentHandler } from "@/app/services/feedback";
 import { useParams } from "next/navigation";
 import { useNotify } from "@/app/contexts/notificationHooks";
 import useUser from "@/app/hooks/useUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EntryDetailed, Comment } from "@/app/types";
+
+import { useForm } from "react-hook-form";
+
+import styles from "./AddComment.module.scss";
+
+import Button from "../Button";
+import NotLogged from "../NotLogged";
+
+import { EntryDetailed } from "@/app/types";
 
 type Inputs = {
 	content: string;

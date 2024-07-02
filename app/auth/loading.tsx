@@ -1,8 +1,8 @@
 "use client";
 
-import { PuffLoader } from "react-spinners";
-
 import theme from "@/app/styles/_theme.module.scss";
+
+import { PuffLoader } from "react-spinners";
 
 function Loading() {
 	return (

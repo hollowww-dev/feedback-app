@@ -1,18 +1,19 @@
 "use client";
 
+import useUser from "@/app/hooks/useUser";
+import { useNotify } from "@/app/contexts/notificationHooks";
+import { useRouter } from "next/navigation";
+
+import { createUserHandler } from "@/app/services/auth";
+
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { signUpSchema } from "@/app/lib/authSchema";
 
 import styles from "@/app/components/Form.module.scss";
 
 import Button from "@/app/components/Button";
-import { useNotify } from "@/app/contexts/notificationHooks";
-import { useRouter } from "next/navigation";
-import { createUserHandler } from "@/app/services/auth";
-import useUser from "@/app/hooks/useUser";
 
 type Inputs = {
 	username: string;

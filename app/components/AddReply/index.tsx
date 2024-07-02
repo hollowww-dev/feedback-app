@@ -1,16 +1,18 @@
 "use client";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useNotify } from "@/app/contexts/notificationHooks";
+import useUser from "@/app/hooks/useUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import styles from "./AddReply.module.scss";
 
 import NotLogged from "../NotLogged";
 import Button from "../Button";
+
 import { addReplyHandler } from "@/app/services/feedback";
-import { useNotify } from "@/app/contexts/notificationHooks";
-import useUser from "@/app/hooks/useUser";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Entry, EntryDetailed } from "@/app/types";
+
+import { EntryDetailed } from "@/app/types";
 
 type Inputs = {
 	content: string;
