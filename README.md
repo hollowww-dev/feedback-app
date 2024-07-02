@@ -4,11 +4,11 @@
 
 ## Project overview :space_invader:
 
-`My goal over development of this app was not only to test my own coding skills, but also gather some hands-on experience involving simultaneous work on front-end and back-end, while planning, producing and managing the project as a whole.`
+`My objective in developing this app was not only to test my coding skills but also to gain hands-on experience in working on both the front-end and back-end simultaneously, while also planning, producing, and managing the project as a whole.`
 
 ## Application possibilities :person_fencing:
 
-`"Product Feedback App" lets its users submit a feedback that by default gets a status of "suggestion". That feedback can be upvoted, commented and pushed through the roadmap by users with special permissions that can change the status of an entry to "planned", "in progress" or "live".`
+`The "Product Feedback App" allows users to submit feedback, which initially receives a status of "suggestion." This feedback can be upvoted, commented on, and advanced through the roadmap by users with special permissions, who can change the status to "planned," "in progress," or "live."`
 
 ### User authentication
 
