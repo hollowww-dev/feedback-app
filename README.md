@@ -4,7 +4,7 @@
 
 ## Project overview :space_invader:
 
-`My goal over development of this app was not only to test my own coding skills, but also gather some hands-on experience involving synergy of front-end and back-end, while planning, producing and managing the project as a whole.`
+`My goal over development of this app was not only to test my own coding skills, but also gather some hands-on experience involving simultaneous work on front-end and back-end, while planning, producing and managing the project as a whole.`
 
 ## Application possibilities :person_fencing:
 
