@@ -69,7 +69,7 @@ const EditPage = () => {
 	const notify = useNotify();
 	const queryClient = getQueryClient();
 
-	if (!user || (user?.superUser !== true && user?.id !== entry.id)) {
+	if (!user || (user?.superUser !== true && user?.id !== entry.user.id)) {
 		notify("You are not authorized to edit this entry.");
 		router.replace(`/entry/${entry.id}`);
 	}

@@ -182,9 +182,10 @@ export async function editEntry(id: string, content: NewEntry) {
 			throw new Error("You need to log in to comment.");
 		}
 		const entry = await feedbackModel.findOne({ _id: id }).populate("user");
+
 		if (!entry) {
 			throw new Error("Entry not found.");
-		} else if (user.data.id !== entry.user.id || user.data.superUser !== true) {
+		} else if (user.data.id !== entry.user.id && user.data.superUser !== true) {
 			throw new Error("You don't have permission to edit this entry.");
 		}
 		await entry.updateOne({ ...content });
@@ -208,7 +209,7 @@ export async function removeEntry(id: string) {
 		const entry = await feedbackModel.findOne({ _id: id }).populate("user");
 		if (!entry) {
 			throw new Error("Entry not found.");
-		} else if (user.data.id !== entry.user.id || user.data.superUser !== true) {
+		} else if (user.data.id !== entry.user.id && user.data.superUser !== true) {
 			throw new Error("You don't have permission to edit this entry.");
 		}
 		await feedbackModel.findByIdAndDelete(entry);
