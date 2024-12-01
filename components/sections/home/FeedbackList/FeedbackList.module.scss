@@ -1,0 +1,117 @@
+@use "@/styles/breakpoints.module.scss" as breakpoints;
+@use "@/styles/theme.module.scss" as theme;
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  .entries {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    @media (min-width: breakpoints.$tablet) {
+      padding: 0;
+    }
+  }
+}
+
+.header {
+  padding: 0.5em 1em;
+  display: flex;
+  justify-content: space-between;
+  background-color: theme.$headerBackground;
+  @media (min-width: breakpoints.$tablet) {
+    border-radius: 10px;
+  }
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 4em;
+    color: theme.$white;
+    .suggestions {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      @media (max-width: breakpoints.$mobile) {
+        display: none;
+      }
+      svg {
+        margin: 0 0.5em;
+      }
+      h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.75em;
+      }
+    }
+  }
+}
+
+.sortBy {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  :global {
+    .select {
+      &__control {
+        transition: none;
+        border: none;
+        background: none;
+        cursor: pointer;
+        &--is-focused {
+          box-shadow: 0 0 2px 1px theme.$active;
+        }
+        &--is-open {
+          .select__dropdown-indicator {
+            transform: rotate(180deg);
+          }
+        }
+      }
+      &__single-value {
+        color: theme.$white;
+      }
+      &__indicator-separator {
+        display: none;
+      }
+      &__dropdown-indicator {
+        color: inherit;
+        transition: none;
+        padding: 0;
+        &:hover {
+          color: inherit;
+        }
+      }
+      &__option {
+        padding: 0.6em 1.1em;
+        color: theme.$paragraph;
+        border-bottom: 1px solid theme.$bodyBackground;
+        cursor: pointer;
+        &:last-of-type {
+          border-bottom: none;
+        }
+        &:hover,
+        &--is-focused {
+          color: theme.$primary;
+          background: none;
+        }
+        &--is-selected {
+          background: none;
+        }
+        &--is-selected {
+          &::before {
+            content: url("../../../../assets/shared/icon-check.svg");
+            position: absolute;
+            right: 1.1em;
+          }
+        }
+      }
+      &__menu {
+        min-width: 12.5em;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25);
+      }
+    }
+  }
+}

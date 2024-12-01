@@ -1,0 +1,49 @@
+@use "@/styles/theme.module.scss" as theme;
+@use "@/styles/breakpoints.module.scss" as breakpoints;
+
+.addReplyContainer {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: breakpoints.$mobile) {
+    flex-direction: row;
+    gap: 1em;
+  }
+  .input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    textarea {
+      width: 100%;
+      padding: 0.8em 1em;
+      border: none;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      background-color: theme.$bodyBackground;
+      color: theme.$paragraph;
+      font-size: inherit;
+      font-family: inherit;
+      resize: none;
+      overflow: hidden;
+      &.error {
+        border: 1px solid red;
+      }
+      &:hover,
+      &:active {
+        border: 1px solid theme.$active;
+      }
+    }
+    .errorMessage {
+      height: 1em;
+      color: red;
+      font-size: 1.3rem;
+      line-height: 2rem;
+    }
+  }
+  button {
+    align-self: flex-end;
+    @media (min-width: breakpoints.$mobile) {
+      align-self: flex-start;
+    }
+  }
+}

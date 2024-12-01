@@ -1,0 +1,12 @@
+@use "@/styles/theme.module.scss" as theme;
+
+.notLogged {
+  padding: 2em 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  a {
+    font-size: inherit;
+    color: theme.$active;
+  }
+}

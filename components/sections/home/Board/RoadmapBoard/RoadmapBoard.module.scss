@@ -1,0 +1,71 @@
+@use "@/styles/breakpoints.module.scss" as breakpoints;
+@use "@/styles/theme.module.scss" as theme;
+
+.roadmapBoard {
+  padding: 1.25em 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  width: 100%;
+  max-width: 225px;
+  border-radius: 10px;
+  background-color: theme.$white;
+  @media (min-width: breakpoints.$tablet) {
+    max-width: 100%;
+    flex-grow: 1;
+  }
+  @media (min-width: breakpoints.$desktop) {
+    max-width: 245px;
+    flex-grow: 0;
+  }
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  a {
+    color: theme.$active;
+    text-decoration: underline;
+    &:hover {
+      color: theme.$linkHover;
+    }
+  }
+}
+.count {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span {
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      &::before {
+        margin-right: 1em;
+        width: 0.35em;
+        height: 0.35em;
+        border-radius: 50%;
+        content: "";
+        @media (min-width: breakpoints.$desktop) {
+          width: 0.5em;
+          height: 0.5em;
+        }
+      }
+      &.planned::before {
+        background-color: theme.$planned;
+      }
+      &.inProgress::before {
+        background-color: theme.$primary;
+      }
+      &.live::before {
+        background-color: theme.$live;
+      }
+      &.number {
+        font-weight: 600;
+      }
+    }
+  }
+}

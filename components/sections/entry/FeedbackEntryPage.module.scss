@@ -1,0 +1,17 @@
+@use "@/styles/breakpoints.module.scss" as breakpoints;
+
+.entryContainer {
+  padding: 1em;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  @media (min-width: breakpoints.$tablet) {
+    max-width: breakpoints.$tablet;
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
