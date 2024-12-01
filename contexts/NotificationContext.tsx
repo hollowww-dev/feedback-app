@@ -1,8 +1,5 @@
 import { ReactNode, createContext, useReducer } from "react";
-import {
-  NotificationContextAction,
-  NotificationContextType,
-} from "../app/types";
+import { NotificationContextAction, NotificationContextType } from "@/types";
 
 const notificationReducer = (
   state: string | null,

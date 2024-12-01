@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useReducer } from "react";
-import { Category, FilterContextType } from "../app/types";
+import { Category, FilterContextType } from "@/types";
 
 const filterReducer = (
   state: FilterContextType["state"],
