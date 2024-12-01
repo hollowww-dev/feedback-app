@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { EntryDetailed } from "../../types";
+import { EntryDetailed } from "@/types";
 
 const feedbackSchema = new mongoose.Schema({
   title: {

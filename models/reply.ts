@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Reply } from "../../types";
+import { Reply } from "@/types";
 const replySchema = new mongoose.Schema<Reply>({
   user: {
     type: mongoose.Schema.Types.ObjectId,

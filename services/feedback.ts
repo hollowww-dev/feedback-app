@@ -9,7 +9,7 @@ import {
   removeEntry,
   upvote,
 } from "@/actions";
-import { NewEntry, Status } from "../../types";
+import { NewEntry } from "@/types";
 
 export const getEntriesHandler = async (
   status: "suggestion" | "planned" | "inprogress" | "live"
