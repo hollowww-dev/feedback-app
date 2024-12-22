@@ -17,7 +17,6 @@ export async function GET(): Promise<
     const stats = await feedbackModel
       .aggregate([{ $match: { status: { $ne: "suggestion" } } }])
       .sortByCount("status");
-    console.log(stats);
     return NextResponse.json({ success: true, data: stats }, { status: 200 });
   } catch (e) {
     if (e instanceof Error) {

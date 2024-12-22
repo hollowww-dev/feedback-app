@@ -10,7 +10,7 @@ import { Entry, EntryDetailed, NewEntry, Status } from "@/types";
 
 export const getEntriesHandler = async (status: Status): Promise<Entry[]> => {
   const response = await fetch(
-    `http://localhost:3000/api/feedback/entries/${status}`
+    `${process.env.NEXT_PUBLIC_API_URL}/feedback/entries/${status}`
   ).then((data) => data.json());
   if (response.success) {
     return response.data;
@@ -21,9 +21,9 @@ export const getEntriesHandler = async (status: Status): Promise<Entry[]> => {
 export const getStatsHandler = async (): Promise<
   { _id: Status; count: number }[]
 > => {
-  const response = await fetch(`http://localhost:3000/api/feedback/stats`).then(
-    (data) => data.json()
-  );
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/feedback/stats`
+  ).then((data) => data.json());
   if (response.success) {
     return response.data;
   } else {
@@ -34,9 +34,9 @@ export const getStatsHandler = async (): Promise<
 export const getSingleHandler = async (
   id: string
 ): Promise<EntryDetailed | null> => {
-  const response = await fetch(`http://localhost:3000/api/feedback/${id}`).then(
-    (data) => data.json()
-  );
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/feedback/${id}`
+  ).then((data) => data.json());
   if (response.success) {
     return response.data;
   } else {

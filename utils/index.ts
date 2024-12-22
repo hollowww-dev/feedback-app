@@ -28,9 +28,14 @@ export const findCategoryKey = (categoryValue: Category) => {
 };
 
 export const isStatus = (param: string): param is Status => {
-  return Object.keys(Status)
-    .map((v) => v.toString())
-    .includes(param);
+  return (
+    Object.keys(Status)
+      .map((v) => v.toString())
+      .includes(param) ||
+    Object.values(Status)
+      .map((v) => v.toString())
+      .includes(param)
+  );
 };
 
 export const findStatusValue = (statusKey: Status) => {
