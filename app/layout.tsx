@@ -1,5 +1,5 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import Providers from "./providers";
+import Providers from "./Providers";
 import Notification from "@components/common/Notification";
 import getQueryClient from "../lib/getQueryClient";
 import { authorizeHandler } from "@/services/auth";

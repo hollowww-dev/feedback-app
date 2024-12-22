@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import Skeleton from "react-loading-skeleton";
+import { Status } from "@/types";
 
 export function RoadmapBoardSkeleton() {
   return (
@@ -44,19 +45,23 @@ function RoadmapBoard() {
         <div>
           <span className={styles.planned}>Planned</span>
           <span className={styles.number}>
-            {count?.find((status) => status._id === "planned")?.count || 0}
+            {count?.find((status: { _id: Status }) => status._id === "planned")
+              ?.count || 0}
           </span>
         </div>
         <div>
           <span className={styles.inProgress}>In-Progress</span>
           <span className={styles.number}>
-            {count?.find((status) => status._id === "inprogress")?.count || 0}
+            {count?.find(
+              (status: { _id: Status }) => status._id === "inprogress"
+            )?.count || 0}
           </span>
         </div>
         <div>
           <span className={styles.live}>Live</span>
           <span className={styles.number}>
-            {count?.find((status) => status._id === "live")?.count || 0}
+            {count?.find((status: { _id: Status }) => status._id === "live")
+              ?.count || 0}
           </span>
         </div>
       </div>
