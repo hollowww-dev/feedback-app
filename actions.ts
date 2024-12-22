@@ -13,13 +13,13 @@ import {
 } from "./utils/toEntry";
 import { toNewUser } from "./utils/toUser";
 
-import feedbackModel from "./models/feedback";
-import userModel from "./models/user";
+import { feedbackModel } from "@/models";
+import { userModel } from "./models";
 import { signInSchema } from "./lib/authSchema";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-import commentModel from "./models/comment";
-import replyModel from "./models/reply";
+import { commentModel } from "./models";
+import { replyModel } from "./models";
 import { NewEntry } from "./types";
 
 export async function createEntry(content: NewEntry) {

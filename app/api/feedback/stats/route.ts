@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import dbConnect from "@/lib/mongodb";
 
-import feedbackModel from "@/models/feedback";
+import { feedbackModel } from "@/models";
 import { Status } from "@/types";
 
 export async function GET(): Promise<

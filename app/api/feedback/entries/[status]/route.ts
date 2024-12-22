@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import dbConnect from "@/lib/mongodb";
 
-import feedbackModel from "@/models/feedback";
+import { feedbackModel } from "@/models";
 
 import { parseEntries } from "@/utils/toEntry";
 import { isStatus } from "@/utils";
