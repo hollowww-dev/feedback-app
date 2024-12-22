@@ -1,4 +1,4 @@
-import { isString, isNumber } from ".";
+import { isString, isNumber, isStatus } from ".";
 
 import {
   Entry,
@@ -50,12 +50,6 @@ const parseUpvotes = (upvotes: unknown): number => {
   }
 
   return upvotes;
-};
-
-export const isStatus = (param: string): param is Status => {
-  return Object.values(Status)
-    .map((v) => v.toString())
-    .includes(param);
 };
 
 const parseStatus = (status: unknown): Status => {

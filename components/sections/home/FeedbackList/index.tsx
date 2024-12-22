@@ -1,6 +1,6 @@
 "use client";
 
-import { Entry, SortBy } from "@/types";
+import { Entry, SortBy, Status } from "@/types";
 
 import { useState } from "react";
 
@@ -62,7 +62,7 @@ export const FeedbackList = () => {
 
   const { data: rawSuggestions } = useSuspenseQuery<Entry[]>({
     queryKey: ["entries", { status: "suggestion" }],
-    queryFn: () => getEntriesHandler("suggestion"),
+    queryFn: () => getEntriesHandler(Status["Suggestion"]),
   });
 
   const user = useUser();

@@ -6,13 +6,11 @@ import {
   removeEntry,
   upvote,
 } from "@/actions";
-import { NewEntry } from "@/types";
+import { Entry, EntryDetailed, NewEntry, Status } from "@/types";
 
-export const getEntriesHandler = async (
-  status: "suggestion" | "planned" | "inprogress" | "live"
-) => {
+export const getEntriesHandler = async (status: Status): Promise<Entry[]> => {
   const response = await fetch(
-    `http://localhost:3000/api/feedback/${status}`
+    `http://localhost:3000/api/feedback/entries/${status}`
   ).then((data) => data.json());
   if (response.success) {
     return response.data;
@@ -20,7 +18,9 @@ export const getEntriesHandler = async (
     throw new Error(response.message);
   }
 };
-export const getStatsHandler = async () => {
+export const getStatsHandler = async (): Promise<
+  { _id: Status; count: number }[]
+> => {
   const response = await fetch(`http://localhost:3000/api/feedback/stats`).then(
     (data) => data.json()
   );
@@ -31,7 +31,9 @@ export const getStatsHandler = async () => {
   }
 };
 
-export const getSingleHandler = async (id: string) => {
+export const getSingleHandler = async (
+  id: string
+): Promise<EntryDetailed | null> => {
   const response = await fetch(`http://localhost:3000/api/feedback/${id}`).then(
     (data) => data.json()
   );

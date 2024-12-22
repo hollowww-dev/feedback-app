@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import { RoadmapMobileSkeleton } from "@components/sections/roadmap/RoadmapMobile";
 import RoadmapMobile from "@components/sections/roadmap/RoadmapMobile";
 import RoadmapHeader from "@components/sections/roadmap/RoadmapHeader";
+import { Status } from "@/types";
 
 export default function Page() {
   return (
@@ -18,13 +19,13 @@ export default function Page() {
       <div className={styles.roadmapDesktop}>
         <div className={styles.entries}>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapColumn status="planned" />
+            <RoadmapColumn status={Status["Planned"]} />
           </Suspense>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapColumn status="inprogress" />
+            <RoadmapColumn status={Status["Planned"]} />
           </Suspense>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapColumn status="live" />
+            <RoadmapColumn status={Status["Planned"]} />
           </Suspense>
         </div>
       </div>

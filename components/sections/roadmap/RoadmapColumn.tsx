@@ -8,6 +8,7 @@ import FeedbackEntry, {
   FeedbackEntrySkeleton,
 } from "@components/common/FeedbackEntry";
 import Skeleton from "react-loading-skeleton";
+import { Status } from "@/types";
 
 export const RoadmapColumnSkeleton = () => {
   return (
@@ -28,7 +29,7 @@ export const RoadmapColumnSkeleton = () => {
 const RoadmapColumn = ({
   status,
 }: {
-  status: "planned" | "inprogress" | "live";
+  status: Exclude<Status, Status.Suggestion>;
 }) => {
   const { data: entries } = useSuspenseQuery({
     queryKey: ["entries", { status }],
