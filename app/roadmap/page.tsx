@@ -22,10 +22,10 @@ export default function Page() {
             <RoadmapColumn status={Status["Planned"]} />
           </Suspense>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapColumn status={Status["Planned"]} />
+            <RoadmapColumn status={Status["In-Progress"]} />
           </Suspense>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapColumn status={Status["Planned"]} />
+            <RoadmapColumn status={Status["Live"]} />
           </Suspense>
         </div>
       </div>
