@@ -5,20 +5,20 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import Board from "@/components/sections/home/Board";
 import { FeedbackListSkeleton } from "@/components/sections/home/FeedbackList";
-import FeedbackListLoader from "@/components/sections/home/FeedbackList/FeedbackListLoader";
+import FeedbackList from "@/components/sections/home/FeedbackList";
 import { RoadmapBoardSkeleton } from "@/components/sections/home/Board/RoadmapBoard";
-import RoadmapBoardLoader from "@/components/sections/home/Board/RoadmapBoard/RoadmapBoardLoader";
+import RoadmapBoard from "@/components/sections/home/Board/RoadmapBoard";
 
 export default async function Page() {
   return (
     <div className={styles.container}>
       <Board>
         <Suspense key="roadmapBoard" fallback={<RoadmapBoardSkeleton />}>
-          <RoadmapBoardLoader />
+          <RoadmapBoard />
         </Suspense>
       </Board>
       <Suspense key="feedbackList" fallback={<FeedbackListSkeleton />}>
-        <FeedbackListLoader />
+        <FeedbackList />
       </Suspense>
     </div>
   );

@@ -3,9 +3,6 @@ import {
   addReply,
   createEntry,
   editEntry,
-  getSingle,
-  getStats,
-  getEntries,
   removeEntry,
   upvote,
 } from "@/actions";
@@ -14,7 +11,9 @@ import { NewEntry } from "@/types";
 export const getEntriesHandler = async (
   status: "suggestion" | "planned" | "inprogress" | "live"
 ) => {
-  const response = await getEntries(status);
+  const response = await fetch(
+    `http://localhost:3000/api/feedback/${status}`
+  ).then((data) => data.json());
   if (response.success) {
     return response.data;
   } else {
@@ -22,7 +21,9 @@ export const getEntriesHandler = async (
   }
 };
 export const getStatsHandler = async () => {
-  const response = await getStats();
+  const response = await fetch(`http://localhost:3000/api/feedback/stats`).then(
+    (data) => data.json()
+  );
   if (response.success) {
     return response.data;
   } else {
@@ -31,7 +32,9 @@ export const getStatsHandler = async () => {
 };
 
 export const getSingleHandler = async (id: string) => {
-  const response = await getSingle(id);
+  const response = await fetch(`http://localhost:3000/api/feedback/${id}`).then(
+    (data) => data.json()
+  );
   if (response.success) {
     return response.data;
   } else {

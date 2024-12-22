@@ -1,4 +1,4 @@
-import RoadmapLoader from "@components/sections/roadmap/RoadmapLoader";
+import RoadmapColumn from "@components/sections/roadmap/RoadmapColumn";
 
 import styles from "@/components/sections/roadmap/RoadmapPage.module.scss";
 
@@ -8,7 +8,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Suspense } from "react";
 
 import { RoadmapMobileSkeleton } from "@components/sections/roadmap/RoadmapMobile";
-import RoadmapMobileLoader from "@components/sections/roadmap/RoadmapMobileLoader";
+import RoadmapMobile from "@components/sections/roadmap/RoadmapMobile";
 import RoadmapHeader from "@components/sections/roadmap/RoadmapHeader";
 
 export default function Page() {
@@ -18,18 +18,18 @@ export default function Page() {
       <div className={styles.roadmapDesktop}>
         <div className={styles.entries}>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapLoader status="planned" />
+            <RoadmapColumn status="planned" />
           </Suspense>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapLoader status="inprogress" />
+            <RoadmapColumn status="inprogress" />
           </Suspense>
           <Suspense fallback={<RoadmapColumnSkeleton />}>
-            <RoadmapLoader status="live" />
+            <RoadmapColumn status="live" />
           </Suspense>
         </div>
       </div>
       <Suspense fallback={<RoadmapMobileSkeleton />}>
-        <RoadmapMobileLoader />
+        <RoadmapMobile />
       </Suspense>
     </div>
   );

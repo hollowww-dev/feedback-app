@@ -1,20 +1,28 @@
-import getQueryClient from "@/lib/getQueryClient";
-import { getSingleHandler } from "@/services/feedback";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { Suspense } from "react";
+
 import EntryPage from "../../../components/sections/entry/EntryPage";
+
 import "react-loading-skeleton/dist/skeleton.css";
+import styles from "@components/sections/entry/FeedbackEntryPage.module.scss";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const queryClient = getQueryClient();
+import { FeedbackEntrySkeleton } from "@/components/common/FeedbackEntry";
+import GoBack from "@/components/common/GoBack";
+import { CommentsListSkeleton } from "@/components/sections/entry/CommentsList";
 
-  queryClient.prefetchQuery({
-    queryKey: ["entries", params.id],
-    queryFn: () => getSingleHandler(params.id),
-  });
-
+export default async function Page() {
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <Suspense
+      fallback={
+        <div className={styles.entryContainer}>
+          <div className={styles.top}>
+            <GoBack />
+          </div>
+          <FeedbackEntrySkeleton extend={true} />
+          <CommentsListSkeleton />
+        </div>
+      }
+    >
       <EntryPage />
-    </HydrationBoundary>
+    </Suspense>
   );
 }

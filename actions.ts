@@ -22,70 +22,6 @@ import commentModel from "./models/comment";
 import replyModel from "./models/reply";
 import { NewEntry } from "./types";
 
-export async function getEntries(
-  status: "suggestion" | "planned" | "inprogress" | "live"
-) {
-  try {
-    await dbConnect();
-    const entries = await feedbackModel
-      .find({ status: status })
-      .populate([{ path: "comments" }, { path: "user" }]);
-    const parsedEntries = parseEntries(entries);
-    return { success: true, data: parsedEntries };
-  } catch (e) {
-    if (e instanceof Error) {
-      return { success: false, message: e.message, data: [] };
-    } else {
-      return { success: false, message: "Something went wrong.", data: [] };
-    }
-  }
-}
-
-export async function getSingle(id: string) {
-  try {
-    await dbConnect();
-    const feedback = await feedbackModel.findById(id).populate([
-      {
-        path: "comments",
-        populate: [
-          {
-            path: "user",
-          },
-          {
-            path: "replies",
-            populate: "user",
-          },
-        ],
-      },
-      { path: "user" },
-    ]);
-    const parsedFeedback = parseEntryDetailed(feedback);
-    return { success: true, data: parsedFeedback };
-  } catch (e) {
-    if (e instanceof Error) {
-      return { success: false, message: e.message, data: null };
-    } else {
-      return { success: false, message: "Something went wrong.", data: null };
-    }
-  }
-}
-
-export async function getStats() {
-  try {
-    await dbConnect();
-    const stats = await feedbackModel
-      .aggregate([{ $match: { status: { $ne: "suggestion" } } }])
-      .sortByCount("status");
-    return { success: true, data: stats };
-  } catch (e) {
-    if (e instanceof Error) {
-      return { success: false, message: e.message, data: null };
-    } else {
-      return { success: false, message: "Something went wrong.", data: null };
-    }
-  }
-}
-
 export async function createEntry(content: NewEntry) {
   try {
     await dbConnect();
@@ -324,7 +260,7 @@ export async function login(request: unknown) {
 
     const accessToken = jwt.sign(foundUser.id, JWT_SECRET);
 
-    cookies().set("currentUser", accessToken, {
+    (await cookies()).set("currentUser", accessToken, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 7,
     });
@@ -346,7 +282,7 @@ export async function authorize() {
     throw new Error("Secret password not provided.");
   }
 
-  const currentUser = cookies().get("currentUser");
+  const currentUser = (await cookies()).get("currentUser");
 
   if (!currentUser || !currentUser.value) {
     return { success: true, data: null };
@@ -382,6 +318,6 @@ export async function authorize() {
 }
 
 export async function logout(): Promise<void> {
-  cookies().delete("currentUser");
+  (await cookies()).delete("currentUser");
   revalidatePath("/");
 }
