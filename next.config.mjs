@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  serverExternalPackages: ["mongoose"],
   webpack: (config) => {
     config.experiments = {
       topLevelAwait: true,
